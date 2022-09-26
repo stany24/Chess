@@ -22,12 +22,12 @@ namespace Chess
             EstBlanc = estblanc;
         }
 
-        public Piece(Image image, bool estblanc,int ligne,int column)
+        public Piece(Image image, bool estblanc, int ligne, int column)
         {
             Pictogramme = image;
             EstBlanc = estblanc;
-            Ligne=ligne;
-            Column=column;
+            Ligne = ligne;
+            Column = column;
         }
 
         public virtual List<string> Deplacement() // cette méthode est crée pour être override dans les classes dépandente de piece
@@ -44,25 +44,103 @@ namespace Chess
             }
             return Tostring;
         }
+
+        public List<string> Diagonale()
+        {
+            List<string> listDeplacement = new List<string>();
+            string deplacement = "";
+            int i = 1;
+
+            while (Column - i >= 0 && Ligne - i >= 0) // calcule vers en bas à gauche
+            {
+                deplacement += Convert.ToString(Ligne - i) + Convert.ToString(Column - i) + " ";
+                i++;
+            }
+            i = 1;
+            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+
+            while (Column + i <= 7 && Ligne + i <= 7) // calcule vers la droite
+            {
+                deplacement += Convert.ToString(Ligne + i) + Convert.ToString(Column + i) + " ";
+                i++;
+            }
+            i = 1;
+            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+
+            while (Column - i >= 0 && Ligne + i <= 7) // calcule vers le haut
+            {
+                deplacement += Convert.ToString(Ligne + i) + Convert.ToString(Column - i) + " ";
+                i++;
+            }
+            i = 1;
+            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+
+            while (Column + i <= 7 && Ligne - i >= 0) // calcule vers le bas
+            {
+                deplacement += Convert.ToString(Ligne - i) + Convert.ToString(Column + i) + " ";
+                i++;
+            }
+            if (deplacement != "") { listDeplacement.Add(deplacement); }
+            return listDeplacement;
+        }
+
+        public List<string> Croix()
+        {
+            List<string> listDeplacement = new List<string>();
+            string deplacement = "";
+            int i = 1;
+
+            while (Column - i > -1) // calcule vers la gauche
+            {
+                deplacement += Convert.ToString(Ligne) + Convert.ToString(Column - i) + " ";
+                i++;
+            }
+            i = 1;
+            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+
+            while (Column + i < 8) // calcule vers la droite
+            {
+                deplacement += Convert.ToString(Ligne) + Convert.ToString(Column + i) + " ";
+                i++;
+            }
+            i = 1;
+            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+
+            while (Ligne + i < 8) // calcule vers le haut
+            {
+                deplacement += Convert.ToString(Ligne + i) + Convert.ToString(Column) + " ";
+                i++;
+            }
+            i = 1;
+            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+
+            while (Ligne - i > -1) // calcule vers le bas
+            {
+                deplacement += Convert.ToString(Ligne - i) + Convert.ToString(Column) + " ";
+                i++;
+            }
+            if (deplacement != "") { listDeplacement.Add(deplacement); }
+            return listDeplacement;
+        }
     }
 
-    public class Roi:Piece // classe dépandente de pièce pour le roi
+    public class Roi : Piece // classe dépandente de pièce pour le roi
     {
-        public Roi(Image image, bool estblanc) :base(image, estblanc) // constructeur de base
+        public Roi(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
         {
             Name = "Roi";
             if (estblanc) Name += " blanc";
             else Name += " noir";
-            EstBlanc= estblanc;
+            EstBlanc = estblanc;
             Pictogramme = image;
         }
 
-        public Roi(Image image, bool estblanc,int ligne,int column) :base(image, estblanc,ligne,column) // constructeur avec la postion du roi
+        public Roi(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion du roi
         {
             Name = "Roi";
             if (estblanc) Name += " blanc";
             else Name += " noir";
-            EstBlanc= estblanc;
+            EstBlanc = estblanc;
             Pictogramme = image;
             Ligne = ligne;
             Column = column;
@@ -71,25 +149,25 @@ namespace Chess
         public override List<string> Deplacement() // calcule les déplacements possible pour la piece sans collision
         {
             List<string> listDeplacement = new List<string>();
-            if (Ligne+1<8)
+            if (Ligne + 1 < 8)
             {
-                if (Column +1<8){listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column + 1) + " ");}
-                if (Column -1>-1){listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column - 1) + " ");}
+                if (Column + 1 < 8) { listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column + 1) + " "); }
+                if (Column - 1 > -1) { listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column - 1) + " "); }
                 listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column));
             }
             if (Ligne - 1 > -1)
             {
-                if (Column + 1 < 8){listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column + 1) + " ");}
-                if (Column - 1 > -1){listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column - 1) + " ");}
+                if (Column + 1 < 8) { listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column + 1) + " "); }
+                if (Column - 1 > -1) { listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column - 1) + " "); }
                 listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column));
             }
-            if (Column + 1 < 8){listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column + 1) + " ");}
-            if (Column - 1 > -1){listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column - 1) + " ");}
+            if (Column + 1 < 8) { listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column + 1) + " "); }
+            if (Column - 1 > -1) { listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column - 1) + " "); }
             return listDeplacement;
         }
     }
 
-    public class Tour:Piece
+    public class Tour : Piece
     {
         public Tour(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
         {
@@ -112,40 +190,7 @@ namespace Chess
 
         public override List<string> Deplacement() // calcule les déplacement possible pour une tour
         {
-            List<string> listDeplacement = new List<string>();
-            string deplacement="";
-            int i = 1;
-
-            while (Column - i > -1) // calcule vers la gauche
-            {
-                deplacement += Convert.ToString(Ligne) + Convert.ToString(Column - i) + " ";
-                i++;
-            }
-            i = 1;
-            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
-
-            while (Column + i < 8) // calcule vers la droite
-            {
-                deplacement += Convert.ToString(Ligne) + Convert.ToString(Column + i) + " ";
-                i++;
-            }
-            i = 1;
-            if (deplacement != ""){ listDeplacement.Add(deplacement); deplacement = ""; }
-
-            while (Ligne + i < 8) // calcule vers le haut
-            {
-                deplacement += Convert.ToString(Ligne + i) + Convert.ToString(Column) + " ";
-                i++;
-            }
-            i = 1;
-            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
-
-            while (Ligne - i > -1) // calcule vers le bas
-            {
-                deplacement += Convert.ToString(Ligne - i) + Convert.ToString(Column) + " ";
-                i++;
-            }
-            if (deplacement != "") { listDeplacement.Add(deplacement); }
+            List<string> listDeplacement = Croix();
             return listDeplacement;
         }
     }
@@ -177,11 +222,11 @@ namespace Chess
             {
                 if (Column + 1 <= 7)
                 {
-                    listDeplacement.Add(Convert.ToString(Ligne + 2)+Convert.ToString(Column + 1)+" ");
+                    listDeplacement.Add(Convert.ToString(Ligne + 2) + Convert.ToString(Column + 1) + " ");
                 }
                 if (Column - 1 >= 0)
                 {
-                    listDeplacement.Add( Convert.ToString(Ligne + 2)+ Convert.ToString(Column + -1)+" ");
+                    listDeplacement.Add(Convert.ToString(Ligne + 2) + Convert.ToString(Column + -1) + " ");
                 }
             }
 
@@ -197,7 +242,7 @@ namespace Chess
                 }
             }
 
-            if (Column +2 <= 7)
+            if (Column + 2 <= 7)
             {
                 if (Ligne + 1 <= 7)
                 {
@@ -248,39 +293,81 @@ namespace Chess
         public override List<string> Deplacement() // calcule les déplacement possible pour une tour
         {
             List<string> listDeplacement = new List<string>();
-            string deplacement = "";
-            int i = 1;
+            listDeplacement = Diagonale();
+            return listDeplacement;
+        }
+    }
 
-            while (Column - i >= 0 && Ligne -i >=0 ) // calcule vers en bas à gauche
-            {
-                deplacement += Convert.ToString(Ligne-i) + Convert.ToString(Column - i) + " ";
-                i++;
-            }
-            i = 1;
-            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+    public class Dame : Piece
+    {
+        public Dame(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
+        {
+            Name = "Dame";
+            if (estblanc) Name += " blanc";
+            else Name += " noir";
+            EstBlanc = estblanc;
+            Pictogramme = image;
+        }
+        public Dame(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
+        {
+            Name = "Dame";
+            if (estblanc) Name += " blanc";
+            else Name += " noir";
+            EstBlanc = estblanc;
+            Pictogramme = image;
+            Ligne = ligne;
+            Column = column;
+        }
 
-            while (Column + i <= 7 && Ligne +i <= 7) // calcule vers la droite
+        public override List<string> Deplacement() // calcule les déplacement possible pour une tour
+        {
+            List<string> listDeplacement = Diagonale();
+            foreach (string item in Croix())
             {
-                deplacement += Convert.ToString(Ligne+i) + Convert.ToString(Column + i) + " ";
-                i++;
+                listDeplacement.Add(item);
             }
-            i = 1;
-            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+            return listDeplacement;
+        }
+    }
 
-            while (Column -i >= 0 && Ligne + i <= 7 ) // calcule vers le haut
-            {
-                deplacement += Convert.ToString(Ligne + i) + Convert.ToString(Column-i) + " ";
-                i++;
-            }
-            i = 1;
-            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+    public class Pion:Piece
+    {
+        public Pion(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
+        {
+            Name = "Pion";
+            if (estblanc) Name += " blanc";
+            else Name += " noir";
+            EstBlanc = estblanc;
+            Pictogramme = image;
+        }
+        public Pion(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
+        {
+            Name = "Pion";
+            if (estblanc) Name += " blanc";
+            else Name += " noir";
+            EstBlanc = estblanc;
+            Pictogramme = image;
+            Ligne = ligne;
+            Column = column;
+        }
 
-            while ( Column +i <= 7 && Ligne - i >= 0) // calcule vers le bas
+        public override List<string> Deplacement()
+        {
+            List<string> listDeplacement = new List<string>();
+            if (EstBlanc)
             {
-                deplacement += Convert.ToString(Ligne - i) + Convert.ToString(Column+1) + " ";
-                i++;
+                listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column) + " ");
+                if (Column - 1 >= 0) { listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column - 1) + " "); }
+                if (Column + 1 <= 7) { listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column + 1) + " "); }
+                if (Ligne==1) {listDeplacement.Add(Convert.ToString(Ligne + 2) + Convert.ToString(Column) + " ");}
             }
-            if (deplacement != "") { listDeplacement.Add(deplacement); }
+            else
+            {
+                listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column) + " ");
+                if (Column - 1 >= 0) { listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column - 1) + " "); }
+                if (Column + 1 <= 7) { listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column + 1) + " "); }
+                if (Ligne == 6) { listDeplacement.Add(Convert.ToString(Ligne - 2) + Convert.ToString(Column) + " "); }
+            }
             return listDeplacement;
         }
     }

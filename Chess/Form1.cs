@@ -86,6 +86,24 @@ namespace Chess
 
         private void btnCommencer_Click(object sender, EventArgs e) // Instanciation initiale des pièces
         {
+            damier[1][0].piece = new Pion(imageList.Images[0], true, 1, 0);
+            damier[1][1].piece = new Pion(imageList.Images[0], true, 1, 1);
+            damier[1][2].piece = new Pion(imageList.Images[0], true, 1, 2);
+            damier[1][3].piece = new Pion(imageList.Images[0], true, 1, 3);
+            damier[1][4].piece = new Pion(imageList.Images[0], true, 1, 4);
+            damier[1][5].piece = new Pion(imageList.Images[0], true, 1, 5);
+            damier[1][6].piece = new Pion(imageList.Images[0], true, 1, 6);
+            damier[1][7].piece = new Pion(imageList.Images[0], true, 1, 7);
+
+            damier[6][0].piece = new Pion(imageList.Images[6], false, 6, 0);
+            damier[6][1].piece = new Pion(imageList.Images[6], false, 6, 1);
+            damier[6][2].piece = new Pion(imageList.Images[6], false, 6, 2);
+            damier[6][3].piece = new Pion(imageList.Images[6], false, 6, 3);
+            damier[6][4].piece = new Pion(imageList.Images[6], false, 6, 4);
+            damier[6][5].piece = new Pion(imageList.Images[6], false, 6, 5);
+            damier[6][6].piece = new Pion(imageList.Images[6], false, 6, 6);
+            damier[6][7].piece = new Pion(imageList.Images[6], false, 6, 7);
+
             damier[0][0].piece = new Tour(imageList.Images[1], true,0,0);
             damier[0][7].piece = new Tour(imageList.Images[1], true,0,7);
             damier[7][0].piece = new Tour(imageList.Images[7], false,7,0);
@@ -103,6 +121,9 @@ namespace Chess
 
             damier[0][3].piece = new Roi(imageList.Images[5], true,0,3);
             damier[7][3].piece = new Roi(imageList.Images[11], false,7,3);
+
+            damier[0][4].piece = new Dame(imageList.Images[4], true, 0, 4);
+            damier[7][4].piece = new Dame(imageList.Images[10], false, 7, 4);
         }
 
         private int LetterToNumber(string letter) // converti une lettre du plateau en nombre pour le double array
@@ -149,18 +170,28 @@ namespace Chess
 
         private List<string> Menace(bool EstNoir) //Calcule les toutes menaces des pièces blanches ou noirs 
         {
-            List<string> listMenace = new List<string>();
-            for (int i = 0; i < damier.Length; i++)
+            List<string> listMenace = new List<string>(); // list des cases menacées
+
+            for (int i = 0; i < damier.Length; i++) // on parcours toutes les cases du damiers
             {
-                for (int j = 0; j < (damier[i]).Length; j++)
+                for (int j = 0; j < (damier[i]).Length; j++)// on parcours toutes les cases du damiers
                 {
-                    if(damier[i][j].piece!=null)
+                    if(damier[i][j].piece!=null && damier[i][j].piece.EstBlanc != EstNoir) // si il y a une piece de la couleur voulue
                     {
-                        if( damier[i][j].piece.EstBlanc != EstNoir)
+                        List<string> listDeplacement = damier[i][j].piece.Deplacement(); //déplacement possibles de la piece sans réstriction
+
+                        for (int k = 0; k < listDeplacement.Count; k++) //on parcours tout les déplacements
                         {
-                            foreach (string list in damier[i][j].piece.Deplacement())
+                            for (int l = 0; l * 3 < listDeplacement[k].Length; l++)//on parcours tout les déplacements
                             {
-                                listMenace.Add(list);
+                                int ligne = Convert.ToInt32(listDeplacement[k].Substring(0 + 3 * l, 1)); //ligne de la case possible pour ce déplacer
+                                int colonne = Convert.ToInt32(listDeplacement[k].Substring(1 + 3 * l, 1));//colonne de la case possible pour ce déplacer
+                                Case casePossible = damier[ligne][colonne];
+                                if (casePossible.piece == null){listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " ");} // ajout de la case attaquée si elle est vide
+                                else{
+                                    if (casePossible.piece.EstBlanc == EstNoir) {listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " ");} //si la couleur de la pièce est différente on l'ajoute a la list des cases attaquées.
+                                    l = listDeplacement[k].Length;// arret après rencontre d'une pièce de la même couleur
+                                } 
                             }
                         }
                     }
@@ -265,11 +296,6 @@ namespace Chess
                                 if ((ligne + colonne) % 2 == 0) { casePossible.BackColor = Color.Yellow; }
                                 else { casePossible.BackColor = Color.Gold; }
                                 if (casePossible.piece != null && casePossible.piece.EstBlanc != button.piece.EstBlanc) { casePossible.BackColor = Color.Red; } // si pièce ennemie mettre en rouge
-                                if (button.piece is Roi) // si c'est un roi enlever les cases menacées
-                                {
-                                    if (button.piece.EstBlanc != true) { ResetColorIn(Menace(false)); }
-                                    else { ResetColorIn(Menace(true)); }
-                                }
                             }
                         }
                         if (casePossible.piece != null) {j= listcase[i].Length;} // arret après rencontre d'une pièce
