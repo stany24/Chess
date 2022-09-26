@@ -90,6 +90,10 @@ namespace Chess
             damier[0][7].piece = new Tour(imageList.Images[1], true,0,7);
             damier[7][0].piece = new Tour(imageList.Images[7], false,7,0);
             damier[7][7].piece = new Tour(imageList.Images[7], false,7,7);
+            damier[0][1].piece = new Cheval(imageList.Images[2], true, 0, 1);
+            damier[0][6].piece = new Cheval(imageList.Images[2], true, 0, 6);
+            damier[7][1].piece = new Cheval(imageList.Images[8], false, 7, 1);
+            damier[7][6].piece = new Cheval(imageList.Images[8], false, 7, 6);
             damier[0][3].piece = new Roi(imageList.Images[5], true,0,3);
             damier[7][3].piece = new Roi(imageList.Images[11], false,7,3);
         }

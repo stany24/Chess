@@ -149,4 +149,79 @@ namespace Chess
             return listDeplacement;
         }
     }
+
+    public class Cheval : Piece
+    {
+        public Cheval(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
+        {
+            Name = "Cheval";
+            if (estblanc) Name += " blanc";
+            else Name += " noir";
+            EstBlanc = estblanc;
+            Pictogramme = image;
+        }
+        public Cheval(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
+        {
+            Name = "Cheval";
+            if (estblanc) Name += " blanc";
+            else Name += " noir";
+            EstBlanc = estblanc;
+            Pictogramme = image;
+            Ligne = ligne;
+            Column = column;
+        }
+        public override List<string> Deplacement() // calcule les déplacement possible pour une tour
+        {
+            List<string> listDeplacement = new List<string>();
+            if (Ligne + 2 <= 7)
+            {
+                if (Column + 1 <= 7)
+                {
+                    listDeplacement.Add(Convert.ToString(Ligne + 2)+Convert.ToString(Column + 1)+" ");
+                }
+                if (Column - 1 >= 0)
+                {
+                    listDeplacement.Add( Convert.ToString(Ligne + 2)+ Convert.ToString(Column + -1)+" ");
+                }
+            }
+
+            if (Ligne - 2 >= 0)
+            {
+                if (Column + 1 <= 7)
+                {
+                    listDeplacement.Add(Convert.ToString(Ligne - 2) + Convert.ToString(Column + 1) + " ");
+                }
+                if (Column - 1 >= 0)
+                {
+                    listDeplacement.Add(Convert.ToString(Ligne - 2) + Convert.ToString(Column + -1) + " ");
+                }
+            }
+
+            if (Column +2 <= 7)
+            {
+                if (Ligne + 1 <= 7)
+                {
+                    listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column + 2) + " ");
+                }
+                if (Ligne - 1 >= 0)
+                {
+                    listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column + 2) + " ");
+                }
+            }
+
+            if (Column - 2 >= 0)
+            {
+                if (Ligne + 1 <= 7)
+                {
+                    listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column - 2) + " ");
+                }
+                if (Ligne - 1 >= 0)
+                {
+                    listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column - 2) + " ");
+                }
+            }
+
+            return listDeplacement;
+        }
+    }
 }
