@@ -16,6 +16,7 @@ namespace Chess
     {
         public ImageList imageList = new ImageList(); // list des images pour les pièces
         public Case[][] damier = new Case[8][]; //array de deux dimension pour stocker les cases
+        public Case selectedCase;
         public int selectedLigne; // ligne de la case séléctionnée
         public int selectedColumn; // colonne de la case séléctionnée
 
@@ -79,11 +80,6 @@ namespace Chess
             }
         }
 
-        private void btnActualiser_Click(object sender, EventArgs e) 
-        {
-            Actualiser();
-        }
-
         private void btnCommencer_Click(object sender, EventArgs e) // Instanciation initiale des pièces
         {
             // déclaration des pions blancs
@@ -118,6 +114,7 @@ namespace Chess
             // déclaration des reines
             damier[0][4].piece = new Dame(imageList.Images[4], true, 0, 4);
             damier[7][4].piece = new Dame(imageList.Images[10], false, 7, 4);
+            Actualiser();
         }
 
         private int LetterToNumber(string letter) // converti une lettre du plateau en nombre pour le double array
@@ -185,7 +182,7 @@ namespace Chess
                                 else{
                                     if (casePossible.piece.EstBlanc == EstNoir) {listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " ");} //si la couleur de la pièce est différente on l'ajoute a la list des cases attaquées.
                                     l = listDeplacement[k].Length;// arret après rencontre d'une pièce de la même couleur
-                                } 
+                                }
                             }
                         }
                     }
@@ -209,20 +206,23 @@ namespace Chess
         private void btnCases_Click(object sender, EventArgs e) // lorsque une case est cliquée
         {
             Case button = sender as Case;
+            lblCase.Text = button.Name.Substring(3,2);
             if (button.BackColor == Color.Yellow || button.BackColor == Color.Gold || button.BackColor == Color.Red ) // si c'est une case de déplacement faire le déplacement
             {
                 //cacher les bouton d'abandon après un coup
                 btnNoirAbandon.Visible = false;
                 btnBlancAbandon.Visible = false;
                 //déplacement de la pièce
-                Piece selectedPiece = damier[selectedLigne][selectedColumn].piece;
-                button.piece = selectedPiece;
-                lblInfo.Text = "Déplacement de " + selectedPiece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1);
+                if(button.piece != null){lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1) +" dégustant: "+ button.piece.Name;}
+                else{lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1);}
+                
+                button.piece = selectedCase.piece;
+                
                 // changement des valeurs stockées dans la pièce
                 button.piece.Ligne = Convert.ToInt32(button.Name.Substring(4, 1))-1;
                 button.piece.Column = Convert.ToInt32(LetterToNumber(button.Name.Substring(3, 1)));
                 // supprimer la pièce de sa case prècèdente
-                damier[selectedLigne][selectedColumn].piece = null;
+                selectedCase.piece = null;
                 // verification des échec pour les rois
                 if (button.piece.EstBlanc)
                 { 
@@ -258,9 +258,9 @@ namespace Chess
             {
                 lblEchec.Text = "";
                 lblInfo.Text = "";
+                lblPiece.Text = button.piece.Name;
                 //actualisation de la dernière case cliquée
-                selectedLigne = button.piece.Ligne;
-                selectedColumn = button.piece.Column;
+                selectedCase = button;
                 button.BackColor = Color.LightBlue;
                 List<string> listcase = button.piece.Deplacement();// tout les déplacement possibles pour la pièce cliquée
                 for (int i = 0; i < listcase.Count; i++)// on parcours tout les déplacements

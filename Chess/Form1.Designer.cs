@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.btnDebug = new System.Windows.Forms.Button();
-            this.btnActualiser = new System.Windows.Forms.Button();
             this.btnCommencer = new System.Windows.Forms.Button();
             this.lblInfo = new System.Windows.Forms.Label();
             this.btnMenaceNoir = new System.Windows.Forms.Button();
@@ -37,6 +36,8 @@
             this.lblEchec = new System.Windows.Forms.Label();
             this.btnNoirAbandon = new System.Windows.Forms.Button();
             this.btnBlancAbandon = new System.Windows.Forms.Button();
+            this.lblCase = new System.Windows.Forms.Label();
+            this.lblPiece = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnDebug
@@ -48,19 +49,9 @@
             this.btnDebug.Text = "Debug";
             this.btnDebug.UseVisualStyleBackColor = true;
             // 
-            // btnActualiser
-            // 
-            this.btnActualiser.Location = new System.Drawing.Point(713, 545);
-            this.btnActualiser.Name = "btnActualiser";
-            this.btnActualiser.Size = new System.Drawing.Size(75, 23);
-            this.btnActualiser.TabIndex = 1;
-            this.btnActualiser.Text = "Actualiser";
-            this.btnActualiser.UseVisualStyleBackColor = true;
-            this.btnActualiser.Click += new System.EventHandler(this.btnActualiser_Click);
-            // 
             // btnCommencer
             // 
-            this.btnCommencer.Location = new System.Drawing.Point(632, 545);
+            this.btnCommencer.Location = new System.Drawing.Point(713, 545);
             this.btnCommencer.Name = "btnCommencer";
             this.btnCommencer.Size = new System.Drawing.Size(75, 23);
             this.btnCommencer.TabIndex = 2;
@@ -71,11 +62,11 @@
             // lblInfo
             // 
             this.lblInfo.AutoSize = true;
-            this.lblInfo.Location = new System.Drawing.Point(77, 489);
+            this.lblInfo.Location = new System.Drawing.Point(23, 513);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(81, 13);
+            this.lblInfo.Size = new System.Drawing.Size(30, 13);
             this.lblInfo.TabIndex = 4;
-            this.lblInfo.Text = "Nom de la case";
+            this.lblInfo.Text = "temp";
             // 
             // btnMenaceNoir
             // 
@@ -125,11 +116,31 @@
             this.btnBlancAbandon.UseVisualStyleBackColor = true;
             this.btnBlancAbandon.Visible = false;
             // 
+            // lblCase
+            // 
+            this.lblCase.AutoSize = true;
+            this.lblCase.Location = new System.Drawing.Point(633, 550);
+            this.lblCase.Name = "lblCase";
+            this.lblCase.Size = new System.Drawing.Size(41, 13);
+            this.lblCase.TabIndex = 10;
+            this.lblCase.Text = "lblCase";
+            // 
+            // lblPiece
+            // 
+            this.lblPiece.AutoSize = true;
+            this.lblPiece.Location = new System.Drawing.Point(455, 550);
+            this.lblPiece.Name = "lblPiece";
+            this.lblPiece.Size = new System.Drawing.Size(44, 13);
+            this.lblPiece.TabIndex = 11;
+            this.lblPiece.Text = "lblPiece";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 580);
+            this.Controls.Add(this.lblPiece);
+            this.Controls.Add(this.lblCase);
             this.Controls.Add(this.btnBlancAbandon);
             this.Controls.Add(this.btnNoirAbandon);
             this.Controls.Add(this.lblEchec);
@@ -137,7 +148,6 @@
             this.Controls.Add(this.btnMenaceNoir);
             this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.btnCommencer);
-            this.Controls.Add(this.btnActualiser);
             this.Controls.Add(this.btnDebug);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -150,7 +160,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnDebug;
-        private System.Windows.Forms.Button btnActualiser;
         private System.Windows.Forms.Button btnCommencer;
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.Button btnMenaceNoir;
@@ -158,6 +167,8 @@
         private System.Windows.Forms.Label lblEchec;
         private System.Windows.Forms.Button btnNoirAbandon;
         private System.Windows.Forms.Button btnBlancAbandon;
+        private System.Windows.Forms.Label lblCase;
+        private System.Windows.Forms.Label lblPiece;
     }
 }
 
