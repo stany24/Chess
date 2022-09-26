@@ -73,18 +73,18 @@ namespace Chess
             List<string> listDeplacement = new List<string>();
             if (Ligne+1<8)
             {
-                if (Column +1<8){listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column + 1));}
-                if (Column -1>-1){listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column - 1));}
+                if (Column +1<8){listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column + 1) + " ");}
+                if (Column -1>-1){listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column - 1) + " ");}
                 listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column));
             }
             if (Ligne - 1 > -1)
             {
-                if (Column + 1 < 8){listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column + 1));}
-                if (Column - 1 > -1){listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column - 1));}
+                if (Column + 1 < 8){listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column + 1) + " ");}
+                if (Column - 1 > -1){listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column - 1) + " ");}
                 listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column));
             }
-            if (Column + 1 < 8){listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column + 1));}
-            if (Column - 1 > -1){listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column - 1));}
+            if (Column + 1 < 8){listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column + 1) + " ");}
+            if (Column - 1 > -1){listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column - 1) + " ");}
             return listDeplacement;
         }
     }

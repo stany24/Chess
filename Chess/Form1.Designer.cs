@@ -34,6 +34,9 @@
             this.lblInfo = new System.Windows.Forms.Label();
             this.btnMenaceNoir = new System.Windows.Forms.Button();
             this.btnMenaceBlanc = new System.Windows.Forms.Button();
+            this.lblEchec = new System.Windows.Forms.Label();
+            this.btnNoirAbandon = new System.Windows.Forms.Button();
+            this.btnBlancAbandon = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnDebug
@@ -44,7 +47,6 @@
             this.btnDebug.TabIndex = 0;
             this.btnDebug.Text = "Debug";
             this.btnDebug.UseVisualStyleBackColor = true;
-            this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
             // 
             // btnActualiser
             // 
@@ -95,11 +97,42 @@
             this.btnMenaceBlanc.UseVisualStyleBackColor = true;
             this.btnMenaceBlanc.Click += new System.EventHandler(this.btnMenaceBlanc_Click);
             // 
+            // lblEchec
+            // 
+            this.lblEchec.AutoSize = true;
+            this.lblEchec.Location = new System.Drawing.Point(338, 526);
+            this.lblEchec.Name = "lblEchec";
+            this.lblEchec.Size = new System.Drawing.Size(0, 13);
+            this.lblEchec.TabIndex = 7;
+            // 
+            // btnNoirAbandon
+            // 
+            this.btnNoirAbandon.Location = new System.Drawing.Point(694, 59);
+            this.btnNoirAbandon.Name = "btnNoirAbandon";
+            this.btnNoirAbandon.Size = new System.Drawing.Size(75, 23);
+            this.btnNoirAbandon.TabIndex = 8;
+            this.btnNoirAbandon.Text = "Abandonner";
+            this.btnNoirAbandon.UseVisualStyleBackColor = true;
+            this.btnNoirAbandon.Visible = false;
+            // 
+            // btnBlancAbandon
+            // 
+            this.btnBlancAbandon.Location = new System.Drawing.Point(694, 253);
+            this.btnBlancAbandon.Name = "btnBlancAbandon";
+            this.btnBlancAbandon.Size = new System.Drawing.Size(75, 23);
+            this.btnBlancAbandon.TabIndex = 9;
+            this.btnBlancAbandon.Text = "Abandonner";
+            this.btnBlancAbandon.UseVisualStyleBackColor = true;
+            this.btnBlancAbandon.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 580);
+            this.Controls.Add(this.btnBlancAbandon);
+            this.Controls.Add(this.btnNoirAbandon);
+            this.Controls.Add(this.lblEchec);
             this.Controls.Add(this.btnMenaceBlanc);
             this.Controls.Add(this.btnMenaceNoir);
             this.Controls.Add(this.lblInfo);
@@ -122,6 +155,9 @@
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.Button btnMenaceNoir;
         private System.Windows.Forms.Button btnMenaceBlanc;
+        private System.Windows.Forms.Label lblEchec;
+        private System.Windows.Forms.Button btnNoirAbandon;
+        private System.Windows.Forms.Button btnBlancAbandon;
     }
 }
 
