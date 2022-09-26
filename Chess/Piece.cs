@@ -224,4 +224,64 @@ namespace Chess
             return listDeplacement;
         }
     }
+    public class Fou : Piece
+    {
+        public Fou(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
+        {
+            Name = "Fou";
+            if (estblanc) Name += " blanc";
+            else Name += " noir";
+            EstBlanc = estblanc;
+            Pictogramme = image;
+        }
+        public Fou(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
+        {
+            Name = "Fou";
+            if (estblanc) Name += " blanc";
+            else Name += " noir";
+            EstBlanc = estblanc;
+            Pictogramme = image;
+            Ligne = ligne;
+            Column = column;
+        }
+
+        public override List<string> Deplacement() // calcule les déplacement possible pour une tour
+        {
+            List<string> listDeplacement = new List<string>();
+            string deplacement = "";
+            int i = 1;
+
+            while (Column - i >= 0 && Ligne -i >=0 ) // calcule vers en bas à gauche
+            {
+                deplacement += Convert.ToString(Ligne-i) + Convert.ToString(Column - i) + " ";
+                i++;
+            }
+            i = 1;
+            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+
+            while (Column + i <= 7 && Ligne +i <= 7) // calcule vers la droite
+            {
+                deplacement += Convert.ToString(Ligne+i) + Convert.ToString(Column + i) + " ";
+                i++;
+            }
+            i = 1;
+            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+
+            while (Column -i >= 0 && Ligne + i <= 7 ) // calcule vers le haut
+            {
+                deplacement += Convert.ToString(Ligne + i) + Convert.ToString(Column-i) + " ";
+                i++;
+            }
+            i = 1;
+            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+
+            while ( Column +i <= 7 && Ligne - i >= 0) // calcule vers le bas
+            {
+                deplacement += Convert.ToString(Ligne - i) + Convert.ToString(Column+1) + " ";
+                i++;
+            }
+            if (deplacement != "") { listDeplacement.Add(deplacement); }
+            return listDeplacement;
+        }
+    }
 }
