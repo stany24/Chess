@@ -48,6 +48,7 @@
             this.btnDebug.TabIndex = 0;
             this.btnDebug.Text = "Debug";
             this.btnDebug.UseVisualStyleBackColor = true;
+            this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
             // 
             // btnCommencer
             // 

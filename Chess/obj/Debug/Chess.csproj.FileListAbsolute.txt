@@ -20,3 +20,14 @@ M:\Git\chess\Chess\obj\Debug\Chess.csproj.GenerateResource.cache
 M:\Git\chess\Chess\obj\Debug\Chess.csproj.CoreCompileInputs.cache
 M:\Git\chess\Chess\obj\Debug\Chess.exe
 M:\Git\chess\Chess\obj\Debug\Chess.pdb
+S:\git\chess\Chess\bin\Debug\Chess.exe.config
+S:\git\chess\Chess\bin\Debug\Chess.exe
+S:\git\chess\Chess\bin\Debug\Chess.pdb
+S:\git\chess\Chess\obj\Debug\Chess.csproj.AssemblyReference.cache
+S:\git\chess\Chess\obj\Debug\Chess.csproj.SuggestedBindingRedirects.cache
+S:\git\chess\Chess\obj\Debug\Chess.Form1.resources
+S:\git\chess\Chess\obj\Debug\Chess.Properties.Resources.resources
+S:\git\chess\Chess\obj\Debug\Chess.csproj.GenerateResource.cache
+S:\git\chess\Chess\obj\Debug\Chess.csproj.CoreCompileInputs.cache
+S:\git\chess\Chess\obj\Debug\Chess.exe
+S:\git\chess\Chess\obj\Debug\Chess.pdb

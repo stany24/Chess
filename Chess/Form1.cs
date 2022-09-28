@@ -17,8 +17,8 @@ namespace Chess
         public ImageList imageList = new ImageList(); // list des images pour les pièces
         public Case[][] damier = new Case[8][]; //array de deux dimension pour stocker les cases
         public Case selectedCase;
-        public int selectedLigne; // ligne de la case séléctionnée
-        public int selectedColumn; // colonne de la case séléctionnée
+        Button buttonEvalWhite = new Button();
+        Button buttonEvalBlack = new Button();
 
         public Form1()
         {
@@ -41,6 +41,22 @@ namespace Chess
             imageList.Images.Add(Resources._10_ReineNoir);
             imageList.Images.Add(Resources._11_RoiNoir);
             string[] letters = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
+
+            // création de la barre d'évaluation
+            buttonEvalWhite.Location= new Point(10, 50);
+            buttonEvalWhite.Size = new Size(15, 200);
+            buttonEvalWhite.BackColor = Color.White;
+            buttonEvalWhite.FlatStyle = FlatStyle.Flat;
+            buttonEvalWhite.Name = "btnEvaluationWhite";
+            this.Controls.Add(buttonEvalWhite);
+
+            buttonEvalBlack.Location = new Point(10, 50);
+            buttonEvalBlack.Size = new Size(15, 400);
+            buttonEvalBlack.BackColor = Color.Black;
+            buttonEvalBlack.FlatStyle = FlatStyle.Flat;
+            buttonEvalBlack.Name = "btnEvaluationBlack";
+            this.Controls.Add(buttonEvalBlack);
+
 
             for (int j = 0; j < 8; j++) // création des cases
             {
@@ -248,6 +264,7 @@ namespace Chess
                     }
                 }
                 //modification de l'affichage d'après les modifications faites plus haut.
+                UpdateEvaluation();
                 ResetColors();
                 Actualiser();
                 return;
@@ -354,6 +371,69 @@ namespace Chess
                     damier[ligne][colonne].BackColor = Color.Red;
                 }
             }
+        }
+
+        private void UpdateEvaluation()
+        {
+            int pointBlanc = 0;
+            int pointNoir = 0;
+            for (int i = 0; i < damier.Length; i++)
+            {
+                for (int j = 0; j < (damier[i]).Length; j++)
+                {
+                    if (damier[i][j].piece != null)
+                    {
+                        if (damier[i][j].piece.EstBlanc)
+                        {
+                            switch (damier[i][j].piece)
+                            {
+                                case Dame dame:
+                                    pointBlanc += 9;
+                                    break;
+                                case Tour tour:
+                                    pointBlanc += 5;
+                                    break;
+                                case Fou fou:
+                                    pointBlanc += 3;
+                                    break;
+                                case Cheval cheval:
+                                    pointBlanc += 3;
+                                    break;
+                                case Pion pion:
+                                    pointBlanc += 1;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            switch (damier[i][j].piece)
+                            {
+                                case Dame dame:
+                                    pointNoir += 9;
+                                    break;
+                                case Tour tour:
+                                    pointNoir += 5;
+                                    break;
+                                case Fou fou:
+                                    pointNoir += 3;
+                                    break;
+                                case Cheval cheval:
+                                    pointNoir += 3;
+                                    break;
+                                case Pion pion:
+                                    pointNoir += 1;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            lblInfo.Text = "blanc: " + pointBlanc + " noir: " + pointNoir;
+            buttonEvalWhite.Size = new Size(15, 200*pointBlanc / pointNoir);
+        }
+
+        private void btnDebug_Click(object sender, EventArgs e)
+        {
         }
     }
 }
