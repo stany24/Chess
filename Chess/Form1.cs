@@ -185,19 +185,65 @@ namespace Chess
                 {
                     if(damier[i][j].piece!=null && damier[i][j].piece.EstBlanc != EstNoir) // si il y a une piece de la couleur voulue
                     {
-                        List<string> listDeplacement = damier[i][j].piece.Deplacement(); //déplacement possibles de la piece sans réstriction
-
-                        for (int k = 0; k < listDeplacement.Count; k++) //on parcours tout les déplacements
+                        if(damier[i][j].piece is Pion)
                         {
-                            for (int l = 0; l * 3 < listDeplacement[k].Length; l++)//on parcours tout les déplacements
+                            int ligne = damier[i][j].piece.Ligne;
+                            int colonne = damier[i][j].piece.Column;
+                            Piece pion = damier[ligne][colonne].piece;
+
+                            if (damier[i][j].piece.EstBlanc)
                             {
-                                int ligne = Convert.ToInt32(listDeplacement[k].Substring(0 + 3 * l, 1)); //ligne de la case possible pour ce déplacer
-                                int colonne = Convert.ToInt32(listDeplacement[k].Substring(1 + 3 * l, 1));//colonne de la case possible pour ce déplacer
-                                Case casePossible = damier[ligne][colonne];
-                                if (casePossible.piece == null){listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " ");} // ajout de la case attaquée si elle est vide
-                                else{
-                                    if (casePossible.piece.EstBlanc == EstNoir) {listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " ");} //si la couleur de la pièce est différente on l'ajoute a la list des cases attaquées.
-                                    l = listDeplacement[k].Length;// arret après rencontre d'une pièce de la même couleur
+                                if (damier[i][j].piece.Column + 1 < 8)
+                                {
+                                    if (damier[ligne + 1][colonne + 1].piece == null || pion.EstBlanc != damier[ligne + 1][colonne + 1].piece.EstBlanc) // capture pour les pions blancs
+                                    {
+                                        listMenace.Add(Convert.ToString(ligne+1) + Convert.ToString(colonne+1) + " ");
+                                    }
+                                }
+                                if (damier[i][j].piece.Column - 1 > -1)
+                                {
+                                    if (damier[ligne + 1][colonne - 1].piece == null || pion.EstBlanc != damier[ligne + 1][colonne - 1].piece.EstBlanc) // capture pour les pions blancs
+                                    {
+                                        listMenace.Add(Convert.ToString(ligne+1) + Convert.ToString(colonne-1) + " ");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (damier[i][j].piece.Column + 1 < 8)
+                                {
+                                    if (damier[ligne - 1][colonne + 1].piece == null || pion.EstBlanc != damier[ligne - 1][colonne + 1].piece.EstBlanc) // capture pour les pions noirs
+                                    {
+                                        listMenace.Add(Convert.ToString(ligne-1) + Convert.ToString(colonne+1) + " ");
+                                    }
+                                }
+
+                                if (damier[i][j].piece.Column - 1 > -1)
+                                {
+                                    if (damier[ligne - 1][colonne - 1].piece == null || pion.EstBlanc != damier[ligne - 1][colonne - 1].piece.EstBlanc) // capture pour les pions noirs
+                                    {
+                                        listMenace.Add(Convert.ToString(ligne-1) + Convert.ToString(colonne-1) + " ");
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            List<string> listDeplacement = damier[i][j].piece.Deplacement(); //déplacement possibles de la piece sans réstriction
+
+                            for (int k = 0; k < listDeplacement.Count; k++) //on parcours tout les déplacements
+                            {
+                                for (int l = 0; l * 3 < listDeplacement[k].Length; l++)//on parcours tout les déplacements
+                                {
+                                    int ligne = Convert.ToInt32(listDeplacement[k].Substring(0 + 3 * l, 1)); //ligne de la case possible pour ce déplacer
+                                    int colonne = Convert.ToInt32(listDeplacement[k].Substring(1 + 3 * l, 1));//colonne de la case possible pour ce déplacer
+                                    Case casePossible = damier[ligne][colonne];
+                                    if (casePossible.piece == null) { listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " "); } // ajout de la case attaquée si elle est vide
+                                    else
+                                    {
+                                        if (casePossible.piece.EstBlanc == EstNoir) { listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " "); } //si la couleur de la pièce est différente on l'ajoute a la list des cases attaquées.
+                                        l = listDeplacement[k].Length;// arret après rencontre d'une pièce de la même couleur
+                                    }
                                 }
                             }
                         }
