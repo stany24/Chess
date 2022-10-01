@@ -279,6 +279,71 @@ namespace Chess
                 //actualisation de la dernière case cliquée
                 selectedCase = button;
                 button.BackColor = Color.LightBlue;
+
+                if (button.piece is Pion)
+                {
+                    int ligne = button.piece.Ligne;
+                    int colonne = button.piece.Column;
+                    Piece pion = damier[ligne][colonne].piece;
+                    if (button.piece.EstBlanc)
+                    {
+                        if(damier[ligne + 1][colonne].piece == null) // avancer pour les pions blancs
+                        {
+                            damier[ligne + 1][colonne].BackColor = Color.Yellow;
+                        }
+
+                        if (damier[ligne + 1][colonne].piece == null && damier[ligne + 2][colonne].piece == null && ligne == 1) // double avancée pour les pions blancs
+                        {
+                            damier[ligne + 2][colonne].BackColor = Color.Yellow;
+                        }
+
+                        if(button.piece.Column + 1<8)
+                        {
+                            if (damier[ligne + 1][colonne + 1].piece != null && pion.EstBlanc != damier[ligne + 1][colonne + 1].piece.EstBlanc) // capture pour les pions blancs
+                            {
+                                damier[ligne + 1][colonne + 1].BackColor = Color.Yellow;
+                            }
+                        }
+                        if (button.piece.Column - 1 > -1)
+                        {
+                            if (damier[ligne + 1][colonne - 1].piece != null && pion.EstBlanc != damier[ligne + 1][colonne - 1].piece.EstBlanc) // capture pour les pions blancs
+                            {
+                                damier[ligne + 1][colonne - 1].BackColor = Color.Yellow;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (damier[ligne - 1][colonne].piece == null) // avancer pour les pions noirs
+                        {
+                            damier[ligne - 1][colonne].BackColor = Color.Yellow;
+                        }
+
+                        if (damier[ligne - 1][colonne].piece == null && damier[ligne - 2][colonne].piece == null && ligne == 6) // double avancée pour les pions noirs
+                        {
+                            damier[ligne - 2][colonne].BackColor = Color.Yellow;
+                        }
+
+                        if (button.piece.Column + 1 < 8)
+                        {
+                            if (damier[ligne - 1][colonne + 1].piece != null && pion.EstBlanc != damier[ligne - 1][colonne + 1].piece.EstBlanc) // capture pour les pions noirs
+                            {
+                                damier[ligne - 1][colonne + 1].BackColor = Color.Yellow;
+                            }
+                        }
+
+                        if (button.piece.Column - 1 > -1)
+                        {
+                            if (damier[ligne - 1][colonne - 1].piece != null && pion.EstBlanc != damier[ligne - 1][colonne - 1].piece.EstBlanc) // capture pour les pions noirs
+                            {
+                                damier[ligne - 1][colonne - 1].BackColor = Color.Yellow;
+                            }
+                        }
+                    }
+                    return;
+                }
+
+                
                 List<string> listcase = button.piece.Deplacement();// tout les déplacement possibles pour la pièce cliquée
                 for (int i = 0; i < listcase.Count; i++)// on parcours tout les déplacements
                 {
@@ -373,19 +438,19 @@ namespace Chess
             }
         }
 
-        private void UpdateEvaluation()
+        private void UpdateEvaluation()//fonction pour mettre à jour la barre dévaluation grace à la valeur des pièces sur le plateau
         {
-            int pointBlanc = 0;
-            int pointNoir = 0;
-            for (int i = 0; i < damier.Length; i++)
+            int pointBlanc = 1;
+            int pointNoir = 1;
+            for (int i = 0; i < damier.Length; i++) // on parcours le plateau
             {
-                for (int j = 0; j < (damier[i]).Length; j++)
+                for (int j = 0; j < (damier[i]).Length; j++)// on parcours le plateau
                 {
                     if (damier[i][j].piece != null)
                     {
                         if (damier[i][j].piece.EstBlanc)
                         {
-                            switch (damier[i][j].piece)
+                            switch (damier[i][j].piece)// addition de la valeur des pièces blaches
                             {
                                 case Dame dame:
                                     pointBlanc += 9;
@@ -406,7 +471,7 @@ namespace Chess
                         }
                         else
                         {
-                            switch (damier[i][j].piece)
+                            switch (damier[i][j].piece)// addition de la valeur des pièces noires
                             {
                                 case Dame dame:
                                     pointNoir += 9;
@@ -428,8 +493,12 @@ namespace Chess
                     }
                 }
             }
-            lblInfo.Text = "blanc: " + pointBlanc + " noir: " + pointNoir;
-            buttonEvalWhite.Size = new Size(15, 200*pointBlanc / pointNoir);
+            double value = pointBlanc / pointNoir;
+            double min = 1 / 40;
+            double max = 40;
+            //modification visuel de la barre
+            int height = Convert.ToInt32((value - min) / (max - min) * 400);
+            buttonEvalWhite.Size = new Size(15,height);
         }
 
         private void btnDebug_Click(object sender, EventArgs e)
