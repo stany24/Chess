@@ -354,19 +354,33 @@ namespace Chess
         public override List<string> Deplacement()
         {
             List<string> listDeplacement = new List<string>();
-            if (EstBlanc)
+
+            if (EstBlanc) // pour les pions blancs
             {
-                listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column) + " ");
-                if (Column - 1 >= 0) { listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column - 1) + " "); }
-                if (Column + 1 <= 7) { listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column + 1) + " "); }
-                if (Ligne==1) {listDeplacement.Add(Convert.ToString(Ligne + 2) + Convert.ToString(Column) + " ");}
+                listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column) + " "); //avance
+
+                if (Column + 1 < 8){listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column + 1) + " ");} //attaque a droite
+                else { listDeplacement.Add("99 "); } // retour négatif
+
+                if (Column - 1 > -1) { listDeplacement.Add(Convert.ToString(Ligne + 1) + Convert.ToString(Column - 1) + " "); } //attaque a gauche
+                else { listDeplacement.Add("99 "); }// retour négatif
+
+                if (Ligne == 1) { listDeplacement.Add(Convert.ToString(Ligne + 2) + Convert.ToString(Column) + " "); } //double avancement
+                else { listDeplacement.Add("99 "); }// retour négatif
+
             }
-            else
+            else // pour les pions noirs
             {
-                listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column) + " ");
-                if (Column - 1 >= 0) { listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column - 1) + " "); }
-                if (Column + 1 <= 7) { listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column + 1) + " "); }
-                if (Ligne == 6) { listDeplacement.Add(Convert.ToString(Ligne - 2) + Convert.ToString(Column) + " "); }
+                listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column) + " "); //avance
+
+                if (Column + 1 < 8){listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column + 1) + " "); } //attaque a droite
+                else { listDeplacement.Add("99 "); }// retour négatif
+
+                if (Column - 1 > -1) { listDeplacement.Add(Convert.ToString(Ligne - 1) + Convert.ToString(Column - 1) + " "); } //attaque a gauche
+                else { listDeplacement.Add("99 "); }// retour négatif
+
+                if (Ligne == 6) { listDeplacement.Add(Convert.ToString(Ligne - 2) + Convert.ToString(Column) + " "); } //double avancement
+                else { listDeplacement.Add("99 "); }// retour négatif
             }
             return listDeplacement;
         }
