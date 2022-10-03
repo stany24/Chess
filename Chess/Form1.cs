@@ -237,6 +237,20 @@ namespace Chess
             return listMenace;
         }
 
+        public bool IsMenacedFrom(bool EstNoir, int ligne,int colonne)
+        {
+            bool result = false;
+            List<string> listMenace = Menace(!EstNoir);
+            foreach (string item in listMenace)
+            {
+                if(item == Convert.ToString(ligne)+Convert.ToString(colonne)+" ")
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
         private void ResetColors()// reset toutes les couleurs des cases
         {
             for (int i = 0; i < damier.Length; i++)
@@ -263,7 +277,18 @@ namespace Chess
                 else{lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1);}
                 
                 button.piece = selectedCase.piece;
-                
+
+                if(button.piece is Roi)
+                {
+                    Roi roi = (Roi)button.piece;
+                    roi.hasMoved = true;
+                }
+                if (button.piece is Tour)
+                {
+                    Tour tour = (Tour)button.piece;
+                    tour.hasMoved = true;
+                }
+
                 // changement des valeurs stockées dans la pièce
                 button.piece.Ligne = Convert.ToInt32(button.Name.Substring(4, 1))-1;
                 button.piece.Column = Convert.ToInt32(LetterToNumber(button.Name.Substring(3, 1)));
@@ -313,12 +338,12 @@ namespace Chess
 
                 if (button.piece is Pion) // régles spéciales si la pièce est un pion
                 {
-                    int deplacement = Convert.ToInt32(listcase[0]);
-                    int attack1 = Convert.ToInt32(listcase[1]);
-                    int attack2 = Convert.ToInt32(listcase[2]);
-                    int doubleDeplacement = Convert.ToInt32(listcase[3]);
+                    int deplacement = Convert.ToInt32(listcase[0]);//case de déplacement
+                    int attack1 = Convert.ToInt32(listcase[1]);//case de la première attaque
+                    int attack2 = Convert.ToInt32(listcase[2]);//case de la deuxième attaque
+                    int doubleDeplacement = Convert.ToInt32(listcase[3]);//case pour la double poussée
 
-                    if(deplacement!=99)
+                    if(deplacement!=99) //vérification de la posibilité de mouvement
                     {
                         int ligne = Convert.ToInt32(listcase[0].Substring(0, 1));
                         int colonne = Convert.ToInt32(listcase[0].Substring(1, 1));
@@ -328,7 +353,7 @@ namespace Chess
                             if ((ligne + colonne) % 2 == 0) { caseDeplacement.BackColor = Color.Yellow; }
                             else { caseDeplacement.BackColor = Color.Gold; }
 
-                            if (doubleDeplacement != 99)
+                            if (doubleDeplacement != 99) // vérification de la posibilité de la double poussée
                             {
                                 int ligneDouble = Convert.ToInt32(listcase[3].Substring(0, 1));
                                 int colonneDouble = Convert.ToInt32(listcase[3].Substring(1, 1));
@@ -341,7 +366,7 @@ namespace Chess
                             }
                         }
                     }
-                    if(attack1!=99)
+                    if(attack1!=99) //vérification de la première case d'attaque
                     {
                         int ligne = Convert.ToInt32(listcase[1].Substring(0, 1));
                         int colonne = Convert.ToInt32(listcase[1].Substring(1, 1));
@@ -352,7 +377,7 @@ namespace Chess
                             else { caseAttack1.BackColor = Color.Gold; }
                         }
                     }
-                    if (attack2 != 99)
+                    if (attack2 != 99)//vérification de la deuxième case d'attaque
                     {
                         int ligne = Convert.ToInt32(listcase[2].Substring(0, 1));
                         int colonne = Convert.ToInt32(listcase[2].Substring(1, 1));
@@ -366,8 +391,6 @@ namespace Chess
                     return;
                 }
 
-                
-                
                 for (int i = 0; i < listcase.Count; i++)// on parcours tout les déplacements
                 {
                     for (int j = 0; j*3 < listcase[i].Length; j++)// on parcours tout les déplacements
@@ -387,6 +410,65 @@ namespace Chess
                             }
                         }
                         if (casePossible.piece != null) {j= listcase[i].Length;} // arret après rencontre d'une pièce
+                    }
+                }
+
+                if(button.piece is Roi) // gestion du rock
+                {
+                    Roi roi = (Roi)button.piece;
+
+                    if(!roi.hasMoved) //vérification que le roi n'a pas encore bougé
+                    {
+                        if (roi.EstBlanc) //pour le roi blanc
+                        {
+                            if (damier[0][0].piece is Tour && damier[0][0].piece.EstBlanc == roi.EstBlanc && damier[0][1].piece == null && damier[0][2].piece == null) // tour à la bonne place - tour de la bonne couleur - pas de piece entre
+                            {
+                                if (!IsMenacedFrom(false, 0, 1) && !IsMenacedFrom(false, 0, 2) && !IsMenacedFrom(false, 0, 3)) // vérification que les cases ne sont pas menacées
+                                {
+                                    Tour tour = (Tour)damier[0][0].piece; 
+                                    if (!tour.hasMoved) //vérification que la tour n'a pas bougé
+                                    {
+                                        damier[0][0].BackColor = Color.Green;
+                                    }
+                                }
+                            }
+                            if (damier[0][7].piece is Tour && damier[0][7].piece.EstBlanc == roi.EstBlanc && damier[0][4].piece == null && damier[0][5].piece == null && damier[0][6].piece == null) // tour à la bonne place - tour de la bonne couleur - pas de piece entre
+                            {
+                                if (!IsMenacedFrom(false, 0, 3) && !IsMenacedFrom(false, 0, 4) && !IsMenacedFrom(false, 0, 5) && !IsMenacedFrom(false, 0, 6)) // vérification que les cases ne sont pas menacées
+                                {
+                                    Tour tour = (Tour)damier[0][7].piece;
+                                    if (!tour.hasMoved) //vérification que la tour n'a pas bougé
+                                    {
+                                        damier[0][7].BackColor = Color.Green;
+                                    }
+                                }
+                            }
+                        }
+                        else // pour le roi noir
+                        {
+                            if (damier[7][0].piece is Tour && damier[7][0].piece.EstBlanc == roi.EstBlanc && damier[7][1].piece == null && damier[7][2].piece == null) // tour à la bonne place - tour de la bonne couleur - pas de piece entre
+                            {
+                                if (!IsMenacedFrom(true, 7, 1) && !IsMenacedFrom(true, 7, 2) && !IsMenacedFrom(true, 7, 3)) // vérification que les cases ne sont pas menacées
+                                {
+                                    Tour tour = (Tour)damier[7][0].piece;
+                                    if (!tour.hasMoved) //vérification que la tour n'a pas bougé
+                                    {
+                                        damier[7][0].BackColor = Color.Green;
+                                    }
+                                }
+                            }
+                            if (damier[7][7].piece is Tour && damier[7][7].piece.EstBlanc == roi.EstBlanc && damier[7][4].piece == null && damier[7][5].piece == null && damier[7][6].piece == null) // tour à la bonne place - tour de la bonne couleur - pas de piece entre
+                            {
+                                if (!IsMenacedFrom(true, 7, 3) && !IsMenacedFrom(true, 7, 4) && !IsMenacedFrom(true, 7, 5) && !IsMenacedFrom(true, 7, 6)) // vérification que les cases ne sont pas menacées
+                                {
+                                    Tour tour = (Tour)damier[7][7].piece;
+                                    if (!tour.hasMoved) //vérification que la tour n'a pas bougé
+                                    {
+                                        damier[7][7].BackColor = Color.Green;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

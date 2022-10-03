@@ -126,6 +126,7 @@ namespace Chess
 
     public class Roi : Piece // classe dépandente de pièce pour le roi
     {
+        public bool hasMoved;
         public Roi(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
         {
             Name = "Roi";
@@ -133,6 +134,7 @@ namespace Chess
             else Name += " noir";
             EstBlanc = estblanc;
             Pictogramme = image;
+            hasMoved = false;
         }
 
         public Roi(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion du roi
@@ -144,6 +146,7 @@ namespace Chess
             Pictogramme = image;
             Ligne = ligne;
             Column = column;
+            hasMoved = false;
         }
 
         public override List<string> Deplacement() // calcule les déplacements possible pour la piece sans collision
@@ -169,6 +172,7 @@ namespace Chess
 
     public class Tour : Piece
     {
+        public bool hasMoved;
         public Tour(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
         {
             Name = "Tour";
@@ -176,6 +180,7 @@ namespace Chess
             else Name += " noir";
             EstBlanc = estblanc;
             Pictogramme = image;
+            hasMoved = false;
         }
         public Tour(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
         {
@@ -186,6 +191,7 @@ namespace Chess
             Pictogramme = image;
             Ligne = ligne;
             Column = column;
+            hasMoved = false;
         }
 
         public override List<string> Deplacement() // calcule les déplacement possible pour une tour
@@ -292,8 +298,7 @@ namespace Chess
 
         public override List<string> Deplacement() // calcule les déplacement possible pour une tour
         {
-            List<string> listDeplacement = new List<string>();
-            listDeplacement = Diagonale();
+            List<string> listDeplacement = Diagonale();
             return listDeplacement;
         }
     }
