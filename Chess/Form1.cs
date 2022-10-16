@@ -634,11 +634,8 @@ namespace Chess
                     }
                 }
             }
-            double value = pointBlanc / pointNoir;
-            double min = 1 / 40;
-            double max = 40;
             //modification visuel de la barre
-            int height = Convert.ToInt32((value - min) / (max - min) * 400);
+            int height = Convert.ToInt32(200 + pointBlanc - pointNoir * 5);
             buttonEvalWhite.Size = new Size(15,height);
         }
 
