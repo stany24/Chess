@@ -337,6 +337,8 @@ namespace Chess
 
     public class Pion:Piece
     {
+        public bool doubleAvance;
+
         public Pion(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
         {
             Name = "Pion";
@@ -344,6 +346,7 @@ namespace Chess
             else Name += " noir";
             EstBlanc = estblanc;
             Pictogramme = image;
+            doubleAvance = false;
         }
         public Pion(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
         {
@@ -354,6 +357,7 @@ namespace Chess
             Pictogramme = image;
             Ligne = ligne;
             Column = column;
+            doubleAvance = false;
         }
 
         public override List<string> Deplacement()
@@ -387,6 +391,16 @@ namespace Chess
                 if (Ligne == 6) { listDeplacement.Add(Convert.ToString(Ligne - 2) + Convert.ToString(Column) + " "); } //double avancement
                 else { listDeplacement.Add("99 "); }// retour négatif
             }
+            //pour les cases attaquées par la prise en passant
+            listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column + 1) + " "); //attaque a droite
+            if(Column-1 > -1)
+            {
+                listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column - 1) + " "); //attaque a gauche
+            }else
+            {
+                listDeplacement.Add(Convert.ToString(Ligne) + "9 "); //attaque a gauche
+            }
+            
             return listDeplacement;
         }
     }

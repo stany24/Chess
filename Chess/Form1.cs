@@ -263,15 +263,34 @@ namespace Chess
             }
         }
 
+        private void ResetDoubleAvance(bool estBlanc)
+        {
+            for (int i = 0; i < damier.Length; i++)
+            {
+                for (int j = 0; j < (damier[i]).Length; j++)
+                {
+                    if(damier[i][j].piece is Pion)
+                    {
+                        Pion pion = (Pion)damier[i][j].piece;
+                        if(pion.EstBlanc == estBlanc)
+                        {
+                            pion.doubleAvance = false;
+                        }
+                    }
+                }
+            }
+        }
+
         private void btnCases_Click(object sender, EventArgs e) // lorsque une case est cliquée
         {
             Case button = sender as Case;
             lblCase.Text = button.Name.Substring(3,2);
-
             if (button.BackColor == Color.Green || button.BackColor == Color.DarkGreen ) // déplacement du rock
             {
+                bool color;
                 if(button.piece.Column == 0) // rock a gauche
                 {
+                    color = button.piece.EstBlanc;
                     damier[button.piece.Ligne][3].piece = button.piece; // déplacement de la tour
                     damier[button.piece.Ligne][3].piece.Column = 3;
 
@@ -285,6 +304,7 @@ namespace Chess
                 }
                 else // rock a droite
                 {
+                    color = button.piece.EstBlanc;
                     damier[button.piece.Ligne][5].piece = button.piece; // déplacement de la tour
                     damier[button.piece.Ligne][5].piece.Column = 5;
 
@@ -296,7 +316,37 @@ namespace Chess
                     selectedCase.piece = null;
                     button.piece = null;
                 }
+                ResetDoubleAvance(!color);
+                UpdateEvaluation();
+                ResetColors();
+                Actualiser();
+                return;
+            }
 
+            if (button.BackColor == Color.Orange)
+            {
+                if(selectedCase.piece.EstBlanc)
+                {
+                    //déplacement
+                    Case newCase = damier[button.piece.Ligne+1][button.piece.Column];
+                    newCase.piece = selectedCase.piece;
+                    newCase.piece.Ligne =  button.piece.Ligne+1;
+                    newCase.piece.Column = button.piece.Column;
+                    //enlever les pions
+                    button.piece = null;
+                    selectedCase.piece =null;
+                }else
+                {
+                    Case newCase = damier[button.piece.Ligne-1][button.piece.Column];
+                    newCase.piece = selectedCase.piece;
+                    newCase.piece.Ligne =  button.piece.Ligne-1;
+                    newCase.piece.Column = button.piece.Column;
+                    //enlever les pions
+                    button.piece = null;
+                    selectedCase.piece =null;
+                }
+                ResetDoubleAvance(true);
+                ResetDoubleAvance(false);
                 UpdateEvaluation();
                 ResetColors();
                 Actualiser();
@@ -311,21 +361,33 @@ namespace Chess
                 //affichage en text du déplacement de la pièce
                 if(button.piece != null){lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1) +" dégustant: "+ button.piece.Name;}
                 else{lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1);}
-                
+                int departLigne =selectedCase.piece.Ligne;
+                bool color = selectedCase.piece.EstBlanc;
                 button.piece = selectedCase.piece;
                 // changement des valeurs stockées dans la pièce
                 button.piece.Ligne = Convert.ToInt32(button.Name.Substring(4, 1))-1;
                 button.piece.Column = Convert.ToInt32(LetterToNumber(button.Name.Substring(3, 1)));
 
-                if(selectedCase.piece is Pion) // pour les pions en dame sur la dernière ligne
+                if(selectedCase.piece is Pion)
                 {
-                    if(button.piece.Ligne == 7 && button.piece.EstBlanc )
+                    if(button.piece.Ligne == 7 && button.piece.EstBlanc ) // pour les pions blanc en dame sur la dernière ligne
                     {
                         button.piece = new Dame(imageList.Images[4], true, 7, button.piece.Column);
                     }
-                    if(button.piece.Ligne == 0 && button.piece.EstBlanc == false )
+                    if(button.piece.Ligne == 0 && button.piece.EstBlanc == false ) // pour les pions noir en dame sur la dernière ligne
                     {
                         button.piece = new Dame(imageList.Images[4], false, 0, button.piece.Column);
+                    }
+
+                    if(button.piece.Ligne == 4 && departLigne == 6) // si le pion noir à fait une double poussée
+                    {
+                        Pion pion = (Pion)button.piece;
+                        pion.doubleAvance = true;
+                    }
+                    if(button.piece.Ligne == 3 && departLigne == 1) // si le pion blanc à fait une double poussée
+                    {
+                        Pion pion = (Pion)button.piece;
+                        pion.doubleAvance = true;
                     }
                 }
                 // supprimer la pièce de sa case prècèdente
@@ -341,10 +403,8 @@ namespace Chess
                     Tour tour = (Tour)button.piece;
                     tour.hasMoved = true;
                 }
-
                 
-                
-                // verification des échec pour les rois
+                // affichage si le roi est en échec ou non
                 if (button.piece.EstBlanc)
                 { 
                     lblEchec.Text = "Le roi noir n'est pas attaqué.";
@@ -369,6 +429,7 @@ namespace Chess
                     }
                 }
                 //modification de l'affichage d'après les modifications faites plus haut.
+                ResetDoubleAvance(!color);
                 UpdateEvaluation();
                 ResetColors();
                 Actualiser();
@@ -450,7 +511,41 @@ namespace Chess
                                 else { caseAttack2.BackColor = Color.Gold; }
                             }
                         }
-                        
+                    }
+
+                    if(button.piece.EstBlanc && button.piece.Ligne == 4 || !button.piece.EstBlanc && button.piece.Ligne == 3) // case possible pour la prise en passant
+                    {
+                        // cases menacées
+                        int ligne = button.piece.Ligne;
+                        int colonneRight = Convert.ToInt32(listcase[4].Substring(1, 1));
+                        int colonneLeft = Convert.ToInt32(listcase[5].Substring(1, 1));
+                       
+                        // gestion de la case menacée à droite
+                        if(colonneRight < 8)
+                        {
+                            Case casePassantRight = damier[ligne][colonneRight];
+                            if( casePassantRight.piece is Pion)
+                            {
+                                Pion pion = (Pion)casePassantRight.piece;
+                                if(pion.doubleAvance == true)
+                                {
+                                    casePassantRight.BackColor = Color.Orange;
+                                }
+                            }
+                        }
+                        // gestion de la case menacée à gauche
+                        if(colonneLeft != 9)
+                        {
+                            Case casePassantLeft = damier[ligne][colonneLeft];
+                            if(casePassantLeft.piece is Pion)
+                            {
+                                Pion pion = (Pion)casePassantLeft.piece;
+                                if(pion.doubleAvance == true)
+                                {
+                                    casePassantLeft.BackColor = Color.Orange;
+                                }
+                            }
+                        }
                     }
                     return;
                 }
