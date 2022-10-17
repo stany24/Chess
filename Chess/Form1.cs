@@ -398,20 +398,27 @@ namespace Chess
                         int ligne = Convert.ToInt32(listcase[0].Substring(0, 1));
                         int colonne = Convert.ToInt32(listcase[0].Substring(1, 1));
                         Case caseDeplacement = damier[ligne][colonne];
-                        if(caseDeplacement.piece ==null)
+                        
+                        if(caseDeplacement.piece == null)
                         {
-                            if ((ligne + colonne) % 2 == 0) { caseDeplacement.BackColor = Color.Yellow; }
-                            else { caseDeplacement.BackColor = Color.Gold; }
+                            if(DeplacementSansEchec(button.piece.EstBlanc,button,caseDeplacement))// vérification que le mouvement ne met pas notre roi en échec
+                            {
+                                if ((ligne + colonne) % 2 == 0) { caseDeplacement.BackColor = Color.Yellow; }
+                                else { caseDeplacement.BackColor = Color.Gold; }
+                            }
 
                             if (doubleDeplacement != 99) // vérification de la posibilité de la double poussée
                             {
                                 int ligneDouble = Convert.ToInt32(listcase[3].Substring(0, 1));
                                 int colonneDouble = Convert.ToInt32(listcase[3].Substring(1, 1));
                                 Case caseDouble = damier[ligneDouble][colonneDouble];
-                                if (caseDouble.piece == null)
+                                if(DeplacementSansEchec(button.piece.EstBlanc,button,caseDeplacement))// vérification que le mouvement ne met pas notre roi en échec
                                 {
-                                    if ((ligneDouble + colonneDouble) % 2 == 0) { caseDouble.BackColor = Color.Yellow; }
-                                    else { caseDouble.BackColor = Color.Gold; }
+                                    if (caseDouble.piece == null)
+                                    {
+                                        if ((ligneDouble + colonneDouble) % 2 == 0) { caseDouble.BackColor = Color.Yellow; }
+                                        else { caseDouble.BackColor = Color.Gold; }
+                                    }
                                 }
                             }
                         }
@@ -421,10 +428,13 @@ namespace Chess
                         int ligne = Convert.ToInt32(listcase[1].Substring(0, 1));
                         int colonne = Convert.ToInt32(listcase[1].Substring(1, 1));
                         Case caseAttack1 = damier[ligne][colonne];
-                        if (caseAttack1.piece != null && caseAttack1.piece.EstBlanc != button.piece.EstBlanc)
+                        if(DeplacementSansEchec(button.piece.EstBlanc,button,caseAttack1))// vérification que le mouvement ne met pas notre roi en échec
                         {
-                            if ((ligne + colonne) % 2 == 0) { caseAttack1.BackColor = Color.Yellow; }
-                            else { caseAttack1.BackColor = Color.Gold; }
+                            if (caseAttack1.piece != null && caseAttack1.piece.EstBlanc != button.piece.EstBlanc)
+                            {
+                                if ((ligne + colonne) % 2 == 0) { caseAttack1.BackColor = Color.Yellow; }
+                                else { caseAttack1.BackColor = Color.Gold; }
+                            }
                         }
                     }
                     if (attack2 != 99)//vérification de la deuxième case d'attaque
@@ -432,11 +442,15 @@ namespace Chess
                         int ligne = Convert.ToInt32(listcase[2].Substring(0, 1));
                         int colonne = Convert.ToInt32(listcase[2].Substring(1, 1));
                         Case caseAttack2 = damier[ligne][colonne];
-                        if (caseAttack2.piece != null && caseAttack2.piece.EstBlanc != button.piece.EstBlanc)
+                        if(DeplacementSansEchec(button.piece.EstBlanc,button,caseAttack2))// vérification que le mouvement ne met pas notre roi en échec
                         {
-                            if ((ligne + colonne) % 2 == 0) { caseAttack2.BackColor = Color.Yellow; }
-                            else { caseAttack2.BackColor = Color.Gold; }
+                            if (caseAttack2.piece != null && caseAttack2.piece.EstBlanc != button.piece.EstBlanc)
+                            {
+                                if ((ligne + colonne) % 2 == 0) { caseAttack2.BackColor = Color.Yellow; }
+                                else { caseAttack2.BackColor = Color.Gold; }
+                            }
                         }
+                        
                     }
                     return;
                 }
