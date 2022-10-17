@@ -308,11 +308,28 @@ namespace Chess
                 //cacher les bouton d'abandon après un coup
                 btnNoirAbandon.Visible = false;
                 btnBlancAbandon.Visible = false;
-                //déplacement de la pièce
+                //affichage en text du déplacement de la pièce
                 if(button.piece != null){lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1) +" dégustant: "+ button.piece.Name;}
                 else{lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1);}
                 
                 button.piece = selectedCase.piece;
+                // changement des valeurs stockées dans la pièce
+                button.piece.Ligne = Convert.ToInt32(button.Name.Substring(4, 1))-1;
+                button.piece.Column = Convert.ToInt32(LetterToNumber(button.Name.Substring(3, 1)));
+
+                if(selectedCase.piece is Pion) // pour les pions en dame sur la dernière ligne
+                {
+                    if(button.piece.Ligne == 7 && button.piece.EstBlanc )
+                    {
+                        button.piece = new Dame(imageList.Images[4], true, 7, button.piece.Column);
+                    }
+                    if(button.piece.Ligne == 0 && button.piece.EstBlanc == false )
+                    {
+                        button.piece = new Dame(imageList.Images[4], false, 0, button.piece.Column);
+                    }
+                }
+                // supprimer la pièce de sa case prècèdente
+                selectedCase.piece = null;
 
                 if(button.piece is Roi)
                 {
@@ -325,11 +342,8 @@ namespace Chess
                     tour.hasMoved = true;
                 }
 
-                // changement des valeurs stockées dans la pièce
-                button.piece.Ligne = Convert.ToInt32(button.Name.Substring(4, 1))-1;
-                button.piece.Column = Convert.ToInt32(LetterToNumber(button.Name.Substring(3, 1)));
-                // supprimer la pièce de sa case prècèdente
-                selectedCase.piece = null;
+                
+                
                 // verification des échec pour les rois
                 if (button.piece.EstBlanc)
                 { 
