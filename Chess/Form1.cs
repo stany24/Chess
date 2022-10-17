@@ -17,6 +17,7 @@ namespace Chess
         public ImageList imageList = new ImageList(); // list des images pour les pièces
         public Case[][] damier = new Case[8][]; //array de deux dimension pour stocker les cases
         public Case selectedCase;
+        public bool ColorToMove = true;
         Button buttonEvalWhite = new Button();
         Button buttonEvalBlack = new Button();
 
@@ -98,6 +99,13 @@ namespace Chess
 
         private void btnCommencer_Click(object sender, EventArgs e) // Instanciation initiale des pièces
         {
+            for (int i = 0; i < damier.Length; i++)
+            {
+                for (int j = 0; j < (damier[i]).Length; j++)
+                {
+                    damier[i][j].piece = null;
+                }
+            }
             // déclaration des pions blancs
             for (int i = 0; i < 8; i++)
             {
@@ -263,6 +271,40 @@ namespace Chess
             }
         }
 
+        private bool CanMove(bool estBlanc) // check if the given color has any piece to move
+        {
+            for (int i = 0; i < damier.Length; i++)
+            {
+                for (int j = 0; j < (damier[i]).Length; j++)
+                {
+                    if(damier[i][j].piece != null)
+                    {
+                        if(damier[i][j].piece.EstBlanc == estBlanc) //si la case est de la bonne couleur
+                        {
+                            List<string> listcase = damier[i][j].piece.Deplacement(); // tout les déplacement de la piece
+                            for (int k = 0; k < listcase.Count; k++)// on parcours tout les déplacements
+                            {
+                                for (int l = 0; l*3 < listcase[k].Length; l++)// on parcours tout les déplacements
+                                {
+                                    int ligne = Convert.ToInt32(listcase[k].Substring(0+3*l, 1));// extraction de la ligne actuel
+                                    int colonne = Convert.ToInt32(listcase[k].Substring(1+3*l, 1));// extraction de la colonne actuel
+                                    if(ligne != 9 && colonne != 9)
+                                    {
+                                        Case casePossible = damier[ligne][colonne];
+                                        if(DeplacementSansEchec(estBlanc,damier[i][j],casePossible)==true)
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
         private void ResetDoubleAvance(bool estBlanc)
         {
             for (int i = 0; i < damier.Length; i++)
@@ -283,6 +325,16 @@ namespace Chess
 
         private void btnCases_Click(object sender, EventArgs e) // lorsque une case est cliquée
         {
+            if(CanMove(true) == false)
+            {
+                lblInfo.Text = "les blancs sont mat";
+                return;
+            }
+            if(CanMove(false) == false)
+            {
+                lblInfo.Text = "les noirs sont mat";
+                return ;
+            }
             Case button = sender as Case;
             lblCase.Text = button.Name.Substring(3,2);
             if (button.BackColor == Color.Green || button.BackColor == Color.DarkGreen ) // déplacement du rock
@@ -758,7 +810,7 @@ namespace Chess
                 }
             }
             //modification visuel de la barre
-            int height = Convert.ToInt32(200 + pointBlanc - pointNoir * 5);
+            int height = Convert.ToInt32(200 + (pointBlanc - pointNoir) * 5);
             buttonEvalWhite.Size = new Size(15,height);
         }
 
