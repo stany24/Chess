@@ -96,7 +96,7 @@ namespace Chess
                 i++;
             }
             i = 1;
-            if (deplacement != "") { listDeplacement.Add(deplacement); deplacement = ""; }
+            if (deplacement != "") {listDeplacement.Add(deplacement);deplacement = "";}
 
             while (Column + i < 8) // calcule vers la droite
             {
