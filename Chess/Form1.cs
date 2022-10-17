@@ -138,6 +138,8 @@ namespace Chess
             // déclaration des reines
             damier[0][3].piece = new Dame(imageList.Images[4], true, 0, 3);
             damier[7][3].piece = new Dame(imageList.Images[10], false, 7, 3);
+
+            //tests
             Actualiser();
         }
 
@@ -264,7 +266,7 @@ namespace Chess
                 {
                     if(damier[i][j].piece != null)
                     {
-                        if (damier[i][j].piece.EstBlanc == estBlanc)
+                        if (damier[i][j].piece.EstBlanc != estBlanc)
                         {
                             foreach (string deplacement in damier[i][j].piece.Deplacement())
                             {
@@ -274,14 +276,19 @@ namespace Chess
 
                                 }else
                                 {
-                                    for (int k = 0; k < deplacement.Length; k++)
+                                    for (int k = 0; k < deplacement.Length/3; k++)
                                     {
                                         int ligne = Convert.ToInt32(deplacement.Substring(0 + 3 * k, 1));
                                         int colonne = Convert.ToInt32(deplacement.Substring(1 + 3 * k, 1));
-                                        if (DeplacementSansEchec(estBlanc, damier[i][j], damier[ligne][colonne]) == true)
+                                        Case casePossible = damier[ligne][colonne];
+                                        if (casePossible.piece == null || casePossible.piece.EstBlanc == estBlanc) // pas de capture de nos pièces
                                         {
-                                            return true;
+                                            if (DeplacementSansEchec(!estBlanc, damier[i][j], damier[ligne][colonne]))// vérification que le mouvement ne met pas notre roi en échec
+                                            {
+                                                return true;
+                                            }
                                         }
+                                        if (casePossible.piece != null) { k = deplacement.Length; } // arret après rencontre d'une pièce
                                     }
                                 }
                             }
@@ -675,12 +682,12 @@ namespace Chess
             //pour le mat
             if(CanMove(true) == false)
             {
-                lblInfo.Text = "les blancs sont mat";
+                lblInfo.Text = "les noirs sont mat";
                 return;
             }
             if(CanMove(false) == false)
             {
-                lblInfo.Text = "les noirs sont mat";
+                lblInfo.Text = "les blancs sont mat";
                 return ;
             }
 
