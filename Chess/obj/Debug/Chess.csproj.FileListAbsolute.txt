@@ -42,3 +42,14 @@ C:\Users\gouvernonst\Desktop\Git\chess\Chess\obj\Debug\Chess.pdb
 C:\Users\gouvernonst\Desktop\Git\chess\Chess\bin\Debug\Chess.exe.config
 C:\Users\gouvernonst\Desktop\Git\chess\Chess\bin\Debug\Chess.exe
 C:\Users\gouvernonst\Desktop\Git\chess\Chess\bin\Debug\Chess.pdb
+M:\informatique\3_Mercredi\3eme\chess\Chess\bin\Debug\Chess.exe.config
+M:\informatique\3_Mercredi\3eme\chess\Chess\bin\Debug\Chess.exe
+M:\informatique\3_Mercredi\3eme\chess\Chess\bin\Debug\Chess.pdb
+M:\informatique\3_Mercredi\3eme\chess\Chess\obj\Debug\Chess.csproj.AssemblyReference.cache
+M:\informatique\3_Mercredi\3eme\chess\Chess\obj\Debug\Chess.csproj.SuggestedBindingRedirects.cache
+M:\informatique\3_Mercredi\3eme\chess\Chess\obj\Debug\Chess.Form1.resources
+M:\informatique\3_Mercredi\3eme\chess\Chess\obj\Debug\Chess.Properties.Resources.resources
+M:\informatique\3_Mercredi\3eme\chess\Chess\obj\Debug\Chess.csproj.GenerateResource.cache
+M:\informatique\3_Mercredi\3eme\chess\Chess\obj\Debug\Chess.csproj.CoreCompileInputs.cache
+M:\informatique\3_Mercredi\3eme\chess\Chess\obj\Debug\Chess.exe
+M:\informatique\3_Mercredi\3eme\chess\Chess\obj\Debug\Chess.pdb

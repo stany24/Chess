@@ -20,6 +20,7 @@ namespace Chess
         public bool ColorToMove = true;
         Button buttonEvalWhite = new Button();
         Button buttonEvalBlack = new Button();
+        bool colorToPlay = true;
 
         public Form1()
         {
@@ -319,67 +320,75 @@ namespace Chess
 
         public void Rock(Case button) // gestion du rock
         {
-            bool color;
-            if (button.piece.Column == 0) // rock a gauche
+            if(button.piece.EstBlanc == colorToPlay)
             {
-                color = button.piece.EstBlanc;
-                damier[button.piece.Ligne][3].piece = button.piece; // déplacement de la tour
-                damier[button.piece.Ligne][3].piece.Column = 3;
+                bool color;
+                if (button.piece.Column == 0) // rock a gauche
+                {
+                    color = button.piece.EstBlanc;
+                    damier[button.piece.Ligne][3].piece = button.piece; // déplacement de la tour
+                    damier[button.piece.Ligne][3].piece.Column = 3;
 
-                damier[button.piece.Ligne][2].piece = selectedCase.piece; //déplacement du roi
-                damier[button.piece.Ligne][2].piece.Column = 2;
+                    damier[button.piece.Ligne][2].piece = selectedCase.piece; //déplacement du roi
+                    damier[button.piece.Ligne][2].piece.Column = 2;
 
-                Roi roi = (Roi)damier[button.piece.Ligne][4].piece;
-                roi.hasMoved = true;
-                selectedCase.piece = null;
-                button.piece = null;
-            }
-            else // rock a droite
-            {
-                color = button.piece.EstBlanc;
-                damier[button.piece.Ligne][5].piece = button.piece; // déplacement de la tour
-                damier[button.piece.Ligne][5].piece.Column = 5;
+                    Roi roi = (Roi)damier[button.piece.Ligne][4].piece;
+                    roi.hasMoved = true;
+                    selectedCase.piece = null;
+                    button.piece = null;
+                }
+                else // rock a droite
+                {
+                    color = button.piece.EstBlanc;
+                    damier[button.piece.Ligne][5].piece = button.piece; // déplacement de la tour
+                    damier[button.piece.Ligne][5].piece.Column = 5;
 
-                damier[button.piece.Ligne][6].piece = selectedCase.piece; //déplacement du roi
-                damier[button.piece.Ligne][6].piece.Column = 6;
+                    damier[button.piece.Ligne][6].piece = selectedCase.piece; //déplacement du roi
+                    damier[button.piece.Ligne][6].piece.Column = 6;
 
-                Roi roi = (Roi)damier[button.piece.Ligne][4].piece;
-                roi.hasMoved = true;
-                selectedCase.piece = null;
-                button.piece = null;
-            }
-            ResetDoubleAvance(!color);
-            UpdateEvaluation();
+                    Roi roi = (Roi)damier[button.piece.Ligne][4].piece;
+                    roi.hasMoved = true;
+                    selectedCase.piece = null;
+                    button.piece = null;
+                }
+                colorToPlay = !colorToPlay;
+                ResetDoubleAvance(!color);
+                UpdateEvaluation();
+            }else{lblInfo.Text = "No your turn to play";}
             ResetColors();
             Actualiser();
         }
 
         public void PrisePassant(Case button) // gestion de la prise en passant
         {
-            if (selectedCase.piece.EstBlanc)
+            if(button.piece.EstBlanc == colorToPlay)
             {
-                //déplacement
-                Case newCase = damier[button.piece.Ligne + 1][button.piece.Column];
-                newCase.piece = selectedCase.piece;
-                newCase.piece.Ligne = button.piece.Ligne + 1;
-                newCase.piece.Column = button.piece.Column;
-                //enlever les pions
-                button.piece = null;
-                selectedCase.piece = null;
-            }
-            else
-            {
-                Case newCase = damier[button.piece.Ligne - 1][button.piece.Column];
-                newCase.piece = selectedCase.piece;
-                newCase.piece.Ligne = button.piece.Ligne - 1;
-                newCase.piece.Column = button.piece.Column;
-                //enlever les pions
-                button.piece = null;
-                selectedCase.piece = null;
-            }
-            ResetDoubleAvance(true);
-            ResetDoubleAvance(false);
-            UpdateEvaluation();
+                if (selectedCase.piece.EstBlanc)
+                {
+                    //déplacement
+                    Case newCase = damier[button.piece.Ligne + 1][button.piece.Column];
+                    newCase.piece = selectedCase.piece;
+                    newCase.piece.Ligne = button.piece.Ligne + 1;
+                    newCase.piece.Column = button.piece.Column;
+                    //enlever les pions
+                    button.piece = null;
+                    selectedCase.piece = null;
+                }
+                else
+                {
+                    Case newCase = damier[button.piece.Ligne - 1][button.piece.Column];
+                    newCase.piece = selectedCase.piece;
+                    newCase.piece.Ligne = button.piece.Ligne - 1;
+                    newCase.piece.Column = button.piece.Column;
+                    //enlever les pions
+                    button.piece = null;
+                    selectedCase.piece = null;
+                }
+                colorToPlay = !colorToPlay;
+                ResetDoubleAvance(true);
+                ResetDoubleAvance(false);
+                UpdateEvaluation();
+            }else { lblInfo.Text = "No your turn to play"; }
             ResetColors();
             Actualiser();
         }
@@ -591,64 +600,68 @@ namespace Chess
 
         public void Deplacement(Case button) // Déplacement des pieces
         {
-            //cacher les bouton d'abandon après un coup
-            btnNoirAbandon.Visible = false;
-            btnBlancAbandon.Visible = false;
-            //affichage en text du déplacement de la pièce
-            if (button.piece != null) { lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1) + " dégustant: " + button.piece.Name; }
-            else { lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1); }
-            bool color = selectedCase.piece.EstBlanc;
-            button.piece = selectedCase.piece;
-            // changement des valeurs stockées dans la pièce
-            button.piece.Ligne = Convert.ToInt32(button.Name.Substring(4, 1)) - 1;
-            button.piece.Column = Convert.ToInt32(LetterToNumber(button.Name.Substring(3, 1)));
+            if(selectedCase.piece.EstBlanc == colorToPlay)
+            {
+                //cacher les bouton d'abandon après un coup
+                btnNoirAbandon.Visible = false;
+                btnBlancAbandon.Visible = false;
+                //affichage en text du déplacement de la pièce
+                if (button.piece != null) { lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1) + " dégustant: " + button.piece.Name; }
+                else { lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1); }
+                bool color = selectedCase.piece.EstBlanc;
+                button.piece = selectedCase.piece;
+                // changement des valeurs stockées dans la pièce
+                button.piece.Ligne = Convert.ToInt32(button.Name.Substring(4, 1)) - 1;
+                button.piece.Column = Convert.ToInt32(LetterToNumber(button.Name.Substring(3, 1)));
 
-            if (selectedCase.piece is Pion)
-            {
-                Promotion(button);
-            }
-            // supprimer la pièce de sa case prècèdente
-            selectedCase.piece = null;
-
-            if (button.piece is Roi)
-            {
-                Roi roi = (Roi)button.piece;
-                roi.hasMoved = true;
-            }
-            if (button.piece is Tour)
-            {
-                Tour tour = (Tour)button.piece;
-                tour.hasMoved = true;
-            }
-
-            // affichage si le roi est en échec ou non
-            if (button.piece.EstBlanc)
-            {
-                lblEchec.Text = "Le roi noir n'est pas attaqué.";
-                foreach (Case casepossible in DeplacementPossible(Menace(false), true))
+                if (selectedCase.piece is Pion)
                 {
-                    if (casepossible.piece is Roi)
+                    Promotion(button);
+                }
+                // supprimer la pièce de sa case prècèdente
+                selectedCase.piece = null;
+
+                if (button.piece is Roi)
+                {
+                    Roi roi = (Roi)button.piece;
+                    roi.hasMoved = true;
+                }
+                if (button.piece is Tour)
+                {
+                    Tour tour = (Tour)button.piece;
+                    tour.hasMoved = true;
+                }
+
+                // affichage si le roi est en échec ou non
+                if (button.piece.EstBlanc)
+                {
+                    lblEchec.Text = "Le roi noir n'est pas attaqué.";
+                    foreach (Case casepossible in DeplacementPossible(Menace(false), true))
                     {
-                        lblEchec.Text = "Echec au Roi noir";
-                        btnNoirAbandon.Visible = true;
+                        if (casepossible.piece is Roi)
+                        {
+                            lblEchec.Text = "Echec au Roi noir";
+                            btnNoirAbandon.Visible = true;
+                        }
                     }
                 }
-            }
-            else
-            {
-                lblEchec.Text = "Le roi blanc n'est pas attaqué.";
-                foreach (Case casepossible in DeplacementPossible(Menace(true), false))
+                else
                 {
-                    if (casepossible.piece is Roi)
+                    lblEchec.Text = "Le roi blanc n'est pas attaqué.";
+                    foreach (Case casepossible in DeplacementPossible(Menace(true), false))
                     {
-                        lblEchec.Text = "Echec au Roi blanc";
-                        btnBlancAbandon.Visible = true;
+                        if (casepossible.piece is Roi)
+                        {
+                            lblEchec.Text = "Echec au Roi blanc";
+                            btnBlancAbandon.Visible = true;
+                        }
                     }
                 }
-            }
-            //modification de l'affichage d'après les modifications faites plus haut.
-            ResetDoubleAvance(!color);
-            UpdateEvaluation();
+                colorToPlay = !colorToPlay;
+                //modification de l'affichage d'après les modifications faites plus haut.
+                ResetDoubleAvance(!color);
+                UpdateEvaluation();
+            }else { lblInfo.Text = "No your turn to play"; }
             ResetColors();
             Actualiser();
         }
@@ -680,7 +693,7 @@ namespace Chess
         private void btnCases_Click(object sender, EventArgs e) // lorsque une case est cliquée
         {
             //pour le mat
-            if(CanMove(true) == false)
+            if (CanMove(true) == false)
             {
                 lblInfo.Text = "les noirs sont mat";
                 return;
@@ -694,7 +707,7 @@ namespace Chess
             Case button = sender as Case;
             lblCase.Text = button.Name.Substring(3,2);
             // déplacement du rock
-            if (button.BackColor == Color.Green || button.BackColor == Color.DarkGreen ) 
+            if (button.BackColor == Color.Green || button.BackColor == Color.DarkGreen )
             {
                 Rock(button);
                 return ;
@@ -844,8 +857,14 @@ namespace Chess
                     }
                 }
             }
+            const int change = 20;
+            const int min = 20;
+            const int max = 380;
+            int dif = pointBlanc - pointNoir;
+            int height = 200 + dif * change;
+            if (height > max) { height = max; }
+            if (height < min) { height = min; }
             //modification visuel de la barre
-            int height = Convert.ToInt32(200 + (pointBlanc - pointNoir) * 5);
             buttonEvalWhite.Size = new Size(15,height);
         }
     }
