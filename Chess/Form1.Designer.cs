@@ -57,7 +57,7 @@
             this.btnCommencer.TabIndex = 2;
             this.btnCommencer.Text = "Commencer";
             this.btnCommencer.UseVisualStyleBackColor = true;
-            this.btnCommencer.Click += new System.EventHandler(this.btnCommencer_Click);
+            this.btnCommencer.Click += new System.EventHandler(this.BtnCommencer_Click);
             // 
             // lblInfo
             // 
@@ -76,7 +76,7 @@
             this.btnMenaceNoir.TabIndex = 5;
             this.btnMenaceNoir.Text = "Menace noir";
             this.btnMenaceNoir.UseVisualStyleBackColor = true;
-            this.btnMenaceNoir.Click += new System.EventHandler(this.btnMenaceNoir_Click);
+            this.btnMenaceNoir.Click += new System.EventHandler(this.BtnMenaceNoir_Click);
             // 
             // btnMenaceBlanc
             // 
@@ -86,7 +86,7 @@
             this.btnMenaceBlanc.TabIndex = 6;
             this.btnMenaceBlanc.Text = "menace blanc";
             this.btnMenaceBlanc.UseVisualStyleBackColor = true;
-            this.btnMenaceBlanc.Click += new System.EventHandler(this.btnMenaceBlanc_Click);
+            this.btnMenaceBlanc.Click += new System.EventHandler(this.BtnMenaceBlanc_Click);
             // 
             // lblEchec
             // 

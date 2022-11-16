@@ -196,8 +196,7 @@ namespace Chess
 
         public override List<string> Deplacement() // calcule les déplacement possible pour une tour
         {
-            List<string> listDeplacement = Croix();
-            return listDeplacement;
+            return Croix();
         }
     }
 
@@ -298,8 +297,7 @@ namespace Chess
 
         public override List<string> Deplacement() // calcule les déplacement possible pour une tour
         {
-            List<string> listDeplacement = Diagonale();
-            return listDeplacement;
+            return Diagonale();
         }
     }
 
