@@ -17,7 +17,6 @@ namespace Chess
         public ImageList imageList = new ImageList(); // list des images pour les pièces
         public Case[][] damier = new Case[8][]; //array de deux dimension pour stocker les cases
         public Case selectedCase;
-        public bool ColorToMove = true;
         bool colorToPlay = true;
         //variables pour la barre d'évaluation
         readonly Button buttonEvalWhite = new Button();
@@ -30,7 +29,11 @@ namespace Chess
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Permet d'inisialiser le plateau ainsi que la barre d'évaluation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             //ajout de toutes les images
@@ -62,7 +65,6 @@ namespace Chess
             buttonEvalBlack.FlatStyle = FlatStyle.Flat;
             buttonEvalBlack.Name = "btnEvaluationBlack";
             this.Controls.Add(buttonEvalBlack);
-
 
             for (int j = 0; j < 8; j++) // création des cases
             {
@@ -105,8 +107,12 @@ namespace Chess
                 this.Controls.Add(label);
             }
         }
-
-        private void BtnCommencer_Click(object sender, EventArgs e) // Instanciation initiale des pièces
+        /// <summary>
+        /// Place toutes les pièces.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnCommencer_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < damier.Length; i++)
             {
@@ -151,8 +157,12 @@ namespace Chess
             //tests
             Actualiser();
         }
-
-        private int LetterToNumber(string letter) // converti une lettre du plateau en nombre pour le double array
+        /// <summary>
+        /// Changes une lettre donnée en nombre pour le tableau de case.
+        /// </summary>
+        /// <param name="letter">Lettre que nous voulons transformer en chiffre.</param>
+        /// <returns></returns>
+        private int LetterToNumber(string letter)
         {
             switch(letter)
             {
@@ -167,8 +177,10 @@ namespace Chess
                 default: return 0;
             }
         }
-
-        private void Actualiser() // actualise l'affichage de toute les cases
+        /// <summary>
+        /// Pour afficher toutes les pièces sur toutes les cases.
+        /// </summary>
+        private void Actualiser()
         {
             for (int i = 0; i < damier.Length; i++)
             {
@@ -179,7 +191,12 @@ namespace Chess
             }
         }
 
-        private List<string> Menace(bool EstNoir) //Calcule les toutes menaces des pièces blanches ou noirs 
+        /// <summary>
+        /// Retourne un tableau des cases menacées par la couleur donnée en paramètre.
+        /// </summary>
+        /// <param name="EstNoir">La couleur dont on veux connaitre les menaces.</param>
+        /// <returns></returns>
+        private List<string> Menace(bool EstNoir)
         {
             List<string> listMenace = new List<string>(); // list des cases menacées
 
@@ -240,7 +257,13 @@ namespace Chess
             }
             return listMenace;
         }
-
+        /// <summary>
+        /// Permet de savoir si une case est attaqué par la couleur donnée.
+        /// </summary>
+        /// <param name="EstNoir">La couleur donnée.</param>
+        /// <param name="ligne">La ligne de la case.</param>
+        /// <param name="colonne">La colonne de la case.</param>
+        /// <returns></returns>
         public bool IsMenacedFrom(bool EstNoir, int ligne,int colonne)
         {
             bool result = false;
@@ -254,8 +277,10 @@ namespace Chess
             }
             return result;
         }
-
-        private void ResetColors()// reset toutes les couleurs des cases
+        /// <summary>
+        /// Remet la couleur de défault sur toutes les cases.
+        /// </summary>
+        private void ResetColors()
         {
             for (int i = 0; i < damier.Length; i++)
             {
@@ -266,8 +291,12 @@ namespace Chess
                 }
             }
         }
-
-        private bool CanMove(bool estBlanc) // check if the given color has any piece to move
+        /// <summary>
+        /// Utilisé pour vérifié si la couleur donnée à un coup à jouer ou non.
+        /// </summary>
+        /// <param name="estBlanc"> La couleur à vérifier.</param>
+        /// <returns></returns>
+        private bool CanMove(bool estBlanc)
         {
             for (int i = 0; i < damier.Length; i++)
             {
@@ -281,7 +310,7 @@ namespace Chess
                             {
                                 if(damier[i][j].piece is Pion pion )
                                 {
-                                    deplacement
+                                    // à compléter
                                 }else
                                 {
                                     for (int k = 0; k < deplacement.Length/3; k++)
@@ -306,8 +335,11 @@ namespace Chess
             }
             return false;
         }
-
-        private void ResetDoubleAvance(bool estBlanc)// remet la variable doubleAvance à false sur tout les pions
+        /// <summary>
+        /// Remet à zero la valeurDoubleAvance à tout les pions de la couleur donnée.
+        /// </summary>
+        /// <param name="estBlanc">La couleur des pions que vous voulez reset.</param>
+        private void ResetDoubleAvance(bool estBlanc)
         {
             for (int i = 0; i < damier.Length; i++)
             {
@@ -323,8 +355,11 @@ namespace Chess
                 }
             }
         }
-
-        public void Rock(Case button) // gestion du rock
+        /// <summary>
+        /// Gére le rock entre le roi et les toures.
+        /// </summary>
+        /// <param name="button">La case de la tour cliquée.</param>
+        public void Rock(Case button)
         {
             if(button.piece.EstBlanc == colorToPlay)
             {
@@ -364,8 +399,11 @@ namespace Chess
             ResetColors();
             Actualiser();
         }
-
-        public void PrisePassant(Case button) // gestion de la prise en passant
+        /// <summary>
+        /// Gére la prise en passant pour les pions.
+        /// </summary>
+        /// <param name="button">La case attaquée par la prise en passant.</param>
+        public void PrisePassant(Case button)
         {
             if(button.piece.EstBlanc == colorToPlay)
             {
@@ -398,8 +436,11 @@ namespace Chess
             ResetColors();
             Actualiser();
         }
-
-        private void Selection(Case button) // gestion lorsque une piece est selectionnée
+        /// <summary>
+        /// Est appelé pour afficher les déplacement possible de la pièce sur laquel on à cliqué.
+        /// </summary>
+        /// <param name="button">le boutton sur lequel est la pièce.</param>
+        private void Selection(Case button)
         {
             lblEchec.Text = "";
             lblInfo.Text = "";
@@ -442,8 +483,12 @@ namespace Chess
                 SelectionRoi(button);
             }
         }
-
-        public void SelectionPion(Case button, List<string> listcase) // gestion suplémentaire lorsque un pion est selectioné
+        /// <summary>
+        /// Gestion de l'affichage des déplacements pour les pions.
+        /// </summary>
+        /// <param name="button">Le boutton sur lequel le pion ce trouve.</param>
+        /// <param name="listcase">Liste des déplacement du pion.</param>
+        public void SelectionPion(Case button, List<string> listcase)
         {
             int deplacement = Convert.ToInt32(listcase[0]);//case de déplacement
             int attack1 = Convert.ToInt32(listcase[1]);//case de la première attaque
@@ -542,8 +587,11 @@ namespace Chess
                 }
             }
         }
-
-        public void SelectionRoi(Case button)// gestion suplémentaire lorsque un roi est selectioné
+        /// <summary>
+        /// Gestion de l'affichage des déplacements pour les rois.
+        /// </summary>
+        /// <param name="button">Le boutton sur lequel est le roi.</param>
+        public void SelectionRoi(Case button)
         {
             Roi roi = (Roi)button.piece;
 
@@ -597,8 +645,11 @@ namespace Chess
                 }
             }
         }
-
-        public void Deplacement(Case button) // Déplacement des pieces
+        /// <summary>
+        /// Après que l'on a cliqué sur une case pour voir les déplacements.
+        /// </summary>
+        /// <param name="button">La case sur laquel on a cliqué.</param>
+        public void Deplacement(Case button)
         {
             if(selectedCase.piece.EstBlanc == colorToPlay)
             {
@@ -657,8 +708,11 @@ namespace Chess
             ResetColors();
             Actualiser();
         }
-
-        private void Promotion(Case button) // fonction pour la promotion des pions
+        /// <summary>
+        /// Promotion automatique des pions en reine.
+        /// </summary>
+        /// <param name="button">Boutton sur lequel le pion se transforme en reine.</param>
+        private void Promotion(Case button)
         {
             int departLigne = selectedCase.piece.Ligne;
             if (button.piece.Ligne == 7 && button.piece.EstBlanc) // pour les pions blanc en dame sur la dernière ligne
@@ -681,8 +735,12 @@ namespace Chess
                 pion.doubleAvance = true;
             }
         }
-
-        private void BtnCases_Click(object sender, EventArgs e) // lorsque une case est cliquée
+        /// <summary>
+        /// L'orsque que l'on clique sur une case.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnCases_Click(object sender, EventArgs e)
         {
             //pour le mat
             if (CanMove(true) == false)
@@ -725,8 +783,14 @@ namespace Chess
             }
             else { lblInfo.Text = "Case vide"; }
         }
-
-        private bool DeplacementSansEchec(bool estblanc,Case depart,Case arrivee) // en lui donnant une nouvelle position elle determine si le coup joué est légal ou non.
+        /// <summary>
+        /// En lui donnant une nouvelle position elle determine si le coup joué est légal ou non.
+        /// </summary>
+        /// <param name="estblanc">Si la pièce et blanche.</param>
+        /// <param name="depart">Case de départ de la pièce.</param>
+        /// <param name="arrivee">Case d'arrivée de la pièce.</param>
+        /// <returns></returns>
+        private bool DeplacementSansEchec(bool estblanc,Case depart,Case arrivee)
         {
             //stockage des valeurs initiales
             bool answer = true;
@@ -749,8 +813,13 @@ namespace Chess
 
             return answer;
         }
-
-        private List<Case> DeplacementPossible(List<String> listcase, bool EstBlanc) // liste toutes les cases où l'on peux se déplacer
+        /// <summary>
+        /// Liste toutes les cases où l'on peux se déplacer.
+        /// </summary>
+        /// <param name="listcase">Liste de toutes les déplacements.</param>
+        /// <param name="EstBlanc"></param>
+        /// <returns></returns>
+        private List<Case> DeplacementPossible(List<String> listcase, bool EstBlanc) 
         {
             List<Case> listPossible = new List<Case>();
             for (int i = 0; i < listcase.Count; i++)// on parcours tout les déplacements
@@ -769,18 +838,29 @@ namespace Chess
             }
             return listPossible;
         }
-
+        /// <summary>
+        /// Boutton pour afficher les cases attaquée par les noirs.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnMenaceNoir_Click(object sender, EventArgs e)
         {
             ColorInRed(Menace(true));
         }
-
+        /// <summary>
+        /// Boutton pour afficher les cases attaquée par les blancs.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnMenaceBlanc_Click(object sender, EventArgs e)
         {
             ColorInRed(Menace(false));
         }
-
-        private void ColorInRed(List<string> list) // affiche en rouge la list de cases fournies
+        /// <summary>
+        /// Affiche en rouge la list de cases fournies.
+        /// </summary>
+        /// <param name="list"></param>
+        private void ColorInRed(List<string> list)
         {
             ResetColors();
             for (int i = 0; i < list.Count; i++)
@@ -793,8 +873,10 @@ namespace Chess
                 }
             }
         }
-
-        private void UpdateEvaluation()//fonction pour mettre à jour la barre dévaluation grace à la valeur des pièces sur le plateau
+        /// <summary>
+        /// Fonction pour mettre à jour la barre dévaluation grace à la valeur des pièces sur le plateau.
+        /// </summary>
+        private void UpdateEvaluation()
         {
             int pointBlanc = 1;
             int pointNoir = 1;
