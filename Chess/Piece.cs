@@ -389,6 +389,7 @@ namespace Chess
                 if (Ligne == 6) { listDeplacement.Add(Convert.ToString(Ligne - 2) + Convert.ToString(Column) + " "); } //double avancement
                 else { listDeplacement.Add("99 "); }// retour négatif
             }
+
             //pour les cases attaquées par la prise en passant
             listDeplacement.Add(Convert.ToString(Ligne) + Convert.ToString(Column + 1) + " "); //attaque a droite
             if(Column-1 > -1)

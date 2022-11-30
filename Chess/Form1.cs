@@ -432,7 +432,7 @@ namespace Chess
                 ResetDoubleAvance(true);
                 ResetDoubleAvance(false);
                 UpdateEvaluation();
-            }else { lblInfo.Text = "No your turn to play"; }
+            }else { lblInfo.Text = "Not your turn to play"; }
             ResetColors();
             Actualiser();
         }
@@ -534,8 +534,8 @@ namespace Chess
                 {
                     if (caseAttack1.piece != null && caseAttack1.piece.EstBlanc != button.piece.EstBlanc)
                     {
-                        if ((ligne + colonne) % 2 == 0) { caseAttack1.BackColor = Color.Yellow; }
-                        else { caseAttack1.BackColor = Color.Gold; }
+                        if ((ligne + colonne) % 2 == 0) { caseAttack1.BackColor = Color.Red; }
+                        else { caseAttack1.BackColor = Color.Red; }
                     }
                 }
             }
@@ -548,8 +548,8 @@ namespace Chess
                 {
                     if (caseAttack2.piece != null && caseAttack2.piece.EstBlanc != button.piece.EstBlanc)
                     {
-                        if ((ligne + colonne) % 2 == 0) { caseAttack2.BackColor = Color.Yellow; }
-                        else { caseAttack2.BackColor = Color.Gold; }
+                        if ((ligne + colonne) % 2 == 0) { caseAttack2.BackColor = Color.Red; }
+                        else { caseAttack2.BackColor = Color.Red; }
                     }
                 }
             }
