@@ -49,7 +49,7 @@ namespace Chess
 
             while (colonne - i >= 0 && ligne - i >= 0) // calcule vers en bas à gauche
             {
-                deplacement += Convert.ToString(ligne - i) + Convert.ToString(colonne - i) + " ";
+                deplacement += $"{ligne - i}{colonne - i} ";
                 i++;
             }
             i = 1;
@@ -57,7 +57,7 @@ namespace Chess
 
             while (colonne + i <= 7 && ligne + i <= 7) // calcule vers la droite
             {
-                deplacement += Convert.ToString(ligne + i) + Convert.ToString(colonne + i) + " ";
+                deplacement += $"{ligne + i}{colonne + i} ";
                 i++;
             }
             i = 1;
@@ -65,7 +65,7 @@ namespace Chess
 
             while (colonne - i >= 0 && ligne + i <= 7) // calcule vers le haut
             {
-                deplacement += Convert.ToString(ligne + i) + Convert.ToString(colonne - i) + " ";
+                deplacement += $"{ligne + i}{colonne - i} ";
                 i++;
             }
             i = 1;
@@ -73,7 +73,7 @@ namespace Chess
 
             while (colonne + i <= 7 && ligne - i >= 0) // calcule vers le bas
             {
-                deplacement += Convert.ToString(ligne - i) + Convert.ToString(colonne + i) + " ";
+                deplacement += $"{ligne - i}{colonne + i} ";
                 i++;
             }
             if (deplacement != "") { listDeplacement.Add(deplacement); }
@@ -88,7 +88,7 @@ namespace Chess
 
             while (colonne - i > -1) // calcule vers la gauche
             {
-                deplacement += Convert.ToString(ligne) + Convert.ToString(colonne - i) + " ";
+                deplacement += $"{ligne}{colonne - i} ";
                 i++;
             }
             i = 1;
@@ -96,7 +96,7 @@ namespace Chess
 
             while (colonne + i < 8) // calcule vers la droite
             {
-                deplacement += Convert.ToString(ligne) + Convert.ToString(colonne + i) + " ";
+                deplacement += $"{ligne}{colonne + i} ";
                 i++;
             }
             i = 1;
@@ -104,7 +104,7 @@ namespace Chess
 
             while (ligne + i < 8) // calcule vers le haut
             {
-                deplacement += Convert.ToString(ligne + i) + Convert.ToString(colonne) + " ";
+                deplacement += $"{ligne + i}{colonne} ";
                 i++;
             }
             i = 1;
@@ -112,7 +112,7 @@ namespace Chess
 
             while (ligne - i > -1) // calcule vers le bas
             {
-                deplacement += Convert.ToString(ligne - i) + Convert.ToString(colonne) + " ";
+                deplacement += $"{ligne - i}{colonne} ";
                 i++;
             }
             if (deplacement != "") { listDeplacement.Add(deplacement); }
@@ -148,18 +148,18 @@ namespace Chess
             List<string> listDeplacement = new List<string>();
             if (ligne + 1 < 8)
             {
-                if (colonne + 1 < 8) { listDeplacement.Add(Convert.ToString(ligne + 1) + Convert.ToString(colonne + 1) + " "); }
-                if (colonne - 1 > -1) { listDeplacement.Add(Convert.ToString(ligne + 1) + Convert.ToString(colonne - 1) + " "); }
-                listDeplacement.Add(Convert.ToString(ligne + 1) + Convert.ToString(colonne));
+                if (colonne + 1 < 8) { listDeplacement.Add($"{ligne + 1}{colonne +1} "); }
+                if (colonne - 1 > -1) { listDeplacement.Add($"{ligne + 1}{colonne - 1} "); }
+                listDeplacement.Add($"{ligne + 1}{colonne} ");
             }
             if (ligne - 1 > -1)
             {
-                if (colonne + 1 < 8) { listDeplacement.Add(Convert.ToString(ligne - 1) + Convert.ToString(colonne + 1) + " "); }
-                if (colonne - 1 > -1) { listDeplacement.Add(Convert.ToString(ligne - 1) + Convert.ToString(colonne - 1) + " "); }
-                listDeplacement.Add(Convert.ToString(ligne - 1) + Convert.ToString(colonne));
+                if (colonne + 1 < 8) { listDeplacement.Add($"{ligne - 1}{colonne + 1} "); }
+                if (colonne - 1 > -1) { listDeplacement.Add($"{ligne - 1}{colonne - 1} "); }
+                listDeplacement.Add($"{ligne - 1}{colonne} ");
             }
-            if (colonne + 1 < 8) { listDeplacement.Add(Convert.ToString(ligne) + Convert.ToString(colonne + 1) + " "); }
-            if (colonne - 1 > -1) { listDeplacement.Add(Convert.ToString(ligne) + Convert.ToString(colonne - 1) + " "); }
+            if (colonne + 1 < 8) { listDeplacement.Add($"{ligne}{colonne + 1} "); }
+            if (colonne - 1 > -1) { listDeplacement.Add($"{ligne}{colonne - 1} "); }
             return listDeplacement;
         }
     }
@@ -217,11 +217,11 @@ namespace Chess
             {
                 if (colonne + 1 <= 7)
                 {
-                    listDeplacement.Add(Convert.ToString(ligne + 2) + Convert.ToString(colonne + 1) + " ");
+                    listDeplacement.Add($"{ligne + 2}{colonne + 1} ");
                 }
                 if (colonne - 1 >= 0)
                 {
-                    listDeplacement.Add(Convert.ToString(ligne + 2) + Convert.ToString(colonne + -1) + " ");
+                    listDeplacement.Add($"{ligne + 2}{colonne + -1} ");
                 }
             }
 
@@ -229,11 +229,11 @@ namespace Chess
             {
                 if (colonne + 1 <= 7)
                 {
-                    listDeplacement.Add(Convert.ToString(ligne - 2) + Convert.ToString(colonne + 1) + " ");
+                    listDeplacement.Add($"{ligne - 2}{colonne + 1} ");
                 }
                 if (colonne - 1 >= 0)
                 {
-                    listDeplacement.Add(Convert.ToString(ligne - 2) + Convert.ToString(colonne + -1) + " ");
+                    listDeplacement.Add($"{ligne - 2}{colonne + -1} ");
                 }
             }
 
@@ -241,11 +241,11 @@ namespace Chess
             {
                 if (ligne + 1 <= 7)
                 {
-                    listDeplacement.Add(Convert.ToString(ligne + 1) + Convert.ToString(colonne + 2) + " ");
+                    listDeplacement.Add($"{ligne + 1}{colonne + 2} ");
                 }
                 if (ligne - 1 >= 0)
                 {
-                    listDeplacement.Add(Convert.ToString(ligne - 1) + Convert.ToString(colonne + 2) + " ");
+                    listDeplacement.Add($"{ligne - 1}{colonne + 2} ");
                 }
             }
 
@@ -253,11 +253,11 @@ namespace Chess
             {
                 if (ligne + 1 <= 7)
                 {
-                    listDeplacement.Add(Convert.ToString(ligne + 1) + Convert.ToString(colonne - 2) + " ");
+                    listDeplacement.Add($"{ligne + 1}{colonne - 2} ");
                 }
                 if (ligne - 1 >= 0)
                 {
-                    listDeplacement.Add(Convert.ToString(ligne - 1) + Convert.ToString(colonne - 2) + " ");
+                    listDeplacement.Add($"{ligne - 1}{colonne - 2} ");
                 }
             }
 
@@ -349,37 +349,37 @@ namespace Chess
 
             if (EstBlanc) // pour les pions blancs
             {
-                listDeplacement.Add(Convert.ToString(ligne + 1) + Convert.ToString(colonne) + " "); //avance
+                listDeplacement.Add($"{ligne + 1}{colonne} "); //avance
 
-                if (colonne + 1 < 8){listDeplacement.Add(Convert.ToString(ligne + 1) + Convert.ToString(colonne + 1) + " ");} //attaque a droite
+                if (colonne + 1 < 8){listDeplacement.Add($"{ligne + 1}{colonne + 1} ");} //attaque a droite
                 else { listDeplacement.Add("99 "); } // retour négatif
 
-                if (colonne - 1 > -1) { listDeplacement.Add(Convert.ToString(ligne + 1) + Convert.ToString(colonne - 1) + " "); } //attaque a gauche
+                if (colonne - 1 > -1) { listDeplacement.Add($"{ligne + 1}{colonne - 1} "); } //attaque a gauche
                 else { listDeplacement.Add("99 "); }// retour négatif
 
-                if (ligne == 1) { listDeplacement.Add(Convert.ToString(ligne + 2) + Convert.ToString(colonne) + " "); } //double avancement
+                if (ligne == 1) { listDeplacement.Add($"{ligne + 2}{colonne} "); } //double avancement
                 else { listDeplacement.Add("99 "); }// retour négatif
 
             }
             else // pour les pions noirs
             {
-                listDeplacement.Add(Convert.ToString(ligne - 1) + Convert.ToString(colonne) + " "); //avance
+                listDeplacement.Add($"{ligne - 1}{colonne} "); //avance
 
-                if (colonne + 1 < 8){listDeplacement.Add(Convert.ToString(ligne - 1) + Convert.ToString(colonne + 1) + " "); } //attaque a droite
+                if (colonne + 1 < 8){listDeplacement.Add($"{ligne - 1}{colonne + 1} "); } //attaque a droite
                 else { listDeplacement.Add("99 "); }// retour négatif
 
-                if (colonne - 1 > -1) { listDeplacement.Add(Convert.ToString(ligne - 1) + Convert.ToString(colonne - 1) + " "); } //attaque a gauche
+                if (colonne - 1 > -1) { listDeplacement.Add($"{ligne - 1}{colonne - 1} "); } //attaque a gauche
                 else { listDeplacement.Add("99 "); }// retour négatif
 
-                if (ligne == 6) { listDeplacement.Add(Convert.ToString(ligne - 2) + Convert.ToString(colonne) + " "); } //double avancement
+                if (ligne == 6) { listDeplacement.Add($"{ligne - 2}{colonne} "); } //double avancement
                 else { listDeplacement.Add("99 "); }// retour négatif
             }
 
             //pour les cases attaquées par la prise en passant
-            listDeplacement.Add(Convert.ToString(ligne) + Convert.ToString(colonne + 1) + " "); //attaque a droite
+            listDeplacement.Add($"{ligne}{colonne + 1} "); //attaque a droite
             if(colonne-1 > -1)
             {
-                listDeplacement.Add(Convert.ToString(ligne) + Convert.ToString(colonne - 1) + " "); //attaque a gauche
+                listDeplacement.Add($"{ligne}{colonne - 1} "); //attaque a gauche
             }else
             {
                 listDeplacement.Add(Convert.ToString(ligne) + "9 "); //attaque a gauche
