@@ -71,14 +71,12 @@ namespace Chess
                 Case[] cases1 = new Case[8];
                 for (int i = 0; i < 8; i++)
                 {
-                    Case cases = new Case();
+                    Case cases = new Case(j,i);
                     cases.Click += new EventHandler(this.BtnCases_Click);
                     cases.Size = new Size(50, 50);
                     cases.Location = new Point(200 + i * 49, 400 - j * 49);
                     cases.Name = "btn" + letters[i].ToUpper() + (j+1);
                     cases.FlatStyle = FlatStyle.Flat;
-                    cases.Ligne = j;
-                    cases.Colonne = i;
                     if ((i+j)%2 == 0){cases.BackColor = Color.Gray;
                     }else { cases.BackColor = Color.White; }
                     this.Controls.Add(cases);
