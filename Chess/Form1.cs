@@ -124,36 +124,36 @@ namespace Chess
             // déclaration des pions blancs
             for (int i = 0; i < 8; i++)
             {
-                damier[1][i].Piece = new Pion(imageList.Images[0], true, 1, i);
+                damier[1][i].Piece = new Pion(imageList.Images[0], true);
             }
 
             // déclaration des pions noirs
             for (int i = 0; i < 8; i++)
             {
-                damier[6][i].Piece = new Pion(imageList.Images[6], false, 6, i);
+                damier[6][i].Piece = new Pion(imageList.Images[6], false);
             }
             // déclaration des tours
-            damier[0][0].Piece = new Tour(imageList.Images[1], true,0,0);
-            damier[0][7].Piece = new Tour(imageList.Images[1], true,0,7);
-            damier[7][0].Piece = new Tour(imageList.Images[7], false,7,0);
-            damier[7][7].Piece = new Tour(imageList.Images[7], false,7,7);
+            damier[0][0].Piece = new Tour(imageList.Images[1], true);
+            damier[0][7].Piece = new Tour(imageList.Images[1], true);
+            damier[7][0].Piece = new Tour(imageList.Images[7], false);
+            damier[7][7].Piece = new Tour(imageList.Images[7], false);
             // déclaration des cavaliers
-            damier[0][1].Piece = new Cheval(imageList.Images[2], true, 0, 1);
-            damier[0][6].Piece = new Cheval(imageList.Images[2], true, 0, 6);
-            damier[7][1].Piece = new Cheval(imageList.Images[8], false, 7, 1);
-            damier[7][6].Piece = new Cheval(imageList.Images[8], false, 7, 6);
+            damier[0][1].Piece = new Cheval(imageList.Images[2], true);
+            damier[0][6].Piece = new Cheval(imageList.Images[2], true);
+            damier[7][1].Piece = new Cheval(imageList.Images[8], false);
+            damier[7][6].Piece = new Cheval(imageList.Images[8], false);
             // déclaration des fous
-            damier[0][2].Piece = new Fou(imageList.Images[3], true, 0, 2);
-            damier[0][5].Piece = new Fou(imageList.Images[3], true, 0, 5);
-            damier[7][2].Piece = new Fou(imageList.Images[9], false, 7, 2);
-            damier[7][5].Piece = new Fou(imageList.Images[9], false, 7, 5);
+            damier[0][2].Piece = new Fou(imageList.Images[3], true);
+            damier[0][5].Piece = new Fou(imageList.Images[3], true);
+            damier[7][2].Piece = new Fou(imageList.Images[9], false);
+            damier[7][5].Piece = new Fou(imageList.Images[9], false);
             // déclaration des rois
-            damier[0][4].Piece = new Roi(imageList.Images[5], true,0,4);
-            damier[7][4].Piece = new Roi(imageList.Images[11], false,7,4);
+            damier[0][4].Piece = new Roi(imageList.Images[5], true);
+            damier[7][4].Piece = new Roi(imageList.Images[11], false);
             // déclaration des reines
-            damier[0][3].Piece = new Dame(imageList.Images[4], true, 0, 3);
-            damier[7][3].Piece = new Dame(imageList.Images[10], false, 7, 3);
-
+            damier[0][3].Piece = new Dame(imageList.Images[4], true);
+            damier[7][3].Piece = new Dame(imageList.Images[10], false);
+            
             //tests
             Actualiser();
         }
@@ -707,11 +707,11 @@ namespace Chess
             int departLigne = selectedCase.Ligne;
             if (button.Ligne == 7 && button.Piece.EstBlanc) // pour les pions blanc en dame sur la dernière ligne
             {
-                button.Piece = new Dame(imageList.Images[4], true, 7, button.Colonne);
+                button.Piece = new Dame(imageList.Images[4], true);
             }
             if (button.Ligne == 0 && button.Piece.EstBlanc == false) // pour les pions noir en dame sur la dernière ligne
             {
-                button.Piece = new Dame(imageList.Images[4], false, 0, button.Colonne);
+                button.Piece = new Dame(imageList.Images[4], false);
             }
 
             if (button.Ligne == 4 && departLigne == 6) // si le pion noir à fait une double poussée

@@ -20,12 +20,6 @@ namespace Chess
             EstBlanc = estblanc;
         }
 
-        public Piece(Image image, bool estblanc, int ligne, int column)
-        {
-            Pictogramme = image;
-            EstBlanc = estblanc;
-        }
-
         public virtual List<string> Deplacement(int ligne,int colonne) // cette méthode est crée pour être override dans les classes dépandente de piece
         {
             return null;
@@ -133,16 +127,6 @@ namespace Chess
             hasMoved = false;
         }
 
-        public Roi(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion du roi
-        {
-            Name = "Roi";
-            if (estblanc) Name += " blanc";
-            else Name += " noir";
-            EstBlanc = estblanc;
-            Pictogramme = image;
-            hasMoved = false;
-        }
-
         public override List<string> Deplacement(int ligne, int colonne) // calcule les déplacements possible pour la piece sans collision
         {
             List<string> listDeplacement = new List<string>();
@@ -176,15 +160,6 @@ namespace Chess
             Pictogramme = image;
             hasMoved = false;
         }
-        public Tour(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
-        {
-            Name = "Tour";
-            if (estblanc) Name += " blanc";
-            else Name += " noir";
-            EstBlanc = estblanc;
-            Pictogramme = image;
-            hasMoved = false;
-        }
 
         public override List<string> Deplacement(int ligne, int colonne) // calcule les déplacement possible pour une tour
         {
@@ -202,14 +177,7 @@ namespace Chess
             EstBlanc = estblanc;
             Pictogramme = image;
         }
-        public Cheval(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
-        {
-            Name = "Cheval";
-            if (estblanc) Name += " blanc";
-            else Name += " noir";
-            EstBlanc = estblanc;
-            Pictogramme = image;
-        }
+
         public override List<string> Deplacement(int ligne, int colonne) // calcule les déplacement possible pour une tour
         {
             List<string> listDeplacement = new List<string>();
@@ -274,14 +242,6 @@ namespace Chess
             EstBlanc = estblanc;
             Pictogramme = image;
         }
-        public Fou(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
-        {
-            Name = "Fou";
-            if (estblanc) Name += " blanc";
-            else Name += " noir";
-            EstBlanc = estblanc;
-            Pictogramme = image;
-        }
 
         public override List<string> Deplacement(int ligne, int colonne) // calcule les déplacement possible pour une tour
         {
@@ -292,14 +252,6 @@ namespace Chess
     public class Dame : Piece
     {
         public Dame(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
-        {
-            Name = "Dame";
-            if (estblanc) Name += " blanc";
-            else Name += " noir";
-            EstBlanc = estblanc;
-            Pictogramme = image;
-        }
-        public Dame(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
         {
             Name = "Dame";
             if (estblanc) Name += " blanc";
@@ -330,16 +282,6 @@ namespace Chess
             else Name += " noir";
             EstBlanc = estblanc;
             Pictogramme = image;
-            doubleAvance = false;
-        }
-        public Pion(Image image, bool estblanc, int ligne, int column) : base(image, estblanc, ligne, column) // constructeur avec la postion de la tour
-        {
-            Name = "Pion";
-            if (estblanc) Name += " blanc";
-            else Name += " noir";
-            EstBlanc = estblanc;
-            Pictogramme = image;
-
             doubleAvance = false;
         }
 
