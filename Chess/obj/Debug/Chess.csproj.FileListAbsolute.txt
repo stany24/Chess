@@ -64,3 +64,14 @@ C:\Users\gouvernonst\Downloads\chess\Chess\obj\Debug\Chess.csproj.GenerateResour
 C:\Users\gouvernonst\Downloads\chess\Chess\obj\Debug\Chess.csproj.CoreCompileInputs.cache
 C:\Users\gouvernonst\Downloads\chess\Chess\obj\Debug\Chess.exe
 C:\Users\gouvernonst\Downloads\chess\Chess\obj\Debug\Chess.pdb
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\obj\Debug\Chess.csproj.AssemblyReference.cache
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\obj\Debug\Chess.csproj.SuggestedBindingRedirects.cache
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\obj\Debug\Chess.Form1.resources
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\obj\Debug\Chess.Properties.Resources.resources
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\obj\Debug\Chess.csproj.GenerateResource.cache
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\obj\Debug\Chess.csproj.CoreCompileInputs.cache
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\obj\Debug\Chess.exe
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\obj\Debug\Chess.pdb
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\bin\Debug\Chess.exe.config
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\bin\Debug\Chess.exe
+C:\Users\gouvernonst\Downloads\chess - Copie\Chess\bin\Debug\Chess.pdb

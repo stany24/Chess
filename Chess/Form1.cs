@@ -77,6 +77,8 @@ namespace Chess
                     cases.Location = new Point(200 + i * 49, 400 - j * 49);
                     cases.Name = "btn" + letters[i].ToUpper() + (j+1);
                     cases.FlatStyle = FlatStyle.Flat;
+                    cases.Ligne = j;
+                    cases.Colonne = i;
                     if ((i+j)%2 == 0){cases.BackColor = Color.Gray;
                     }else { cases.BackColor = Color.White; }
                     this.Controls.Add(cases);
@@ -118,41 +120,41 @@ namespace Chess
             {
                 for (int j = 0; j < (damier[i]).Length; j++)
                 {
-                    damier[i][j].piece = null;
+                    damier[i][j].Piece = null;
                 }
             }
             // déclaration des pions blancs
             for (int i = 0; i < 8; i++)
             {
-                damier[1][i].piece = new Pion(imageList.Images[0], true, 1, i);
+                damier[1][i].Piece = new Pion(imageList.Images[0], true, 1, i);
             }
 
             // déclaration des pions noirs
             for (int i = 0; i < 8; i++)
             {
-                damier[6][i].piece = new Pion(imageList.Images[6], false, 6, i);
+                damier[6][i].Piece = new Pion(imageList.Images[6], false, 6, i);
             }
             // déclaration des tours
-            damier[0][0].piece = new Tour(imageList.Images[1], true,0,0);
-            damier[0][7].piece = new Tour(imageList.Images[1], true,0,7);
-            damier[7][0].piece = new Tour(imageList.Images[7], false,7,0);
-            damier[7][7].piece = new Tour(imageList.Images[7], false,7,7);
+            damier[0][0].Piece = new Tour(imageList.Images[1], true,0,0);
+            damier[0][7].Piece = new Tour(imageList.Images[1], true,0,7);
+            damier[7][0].Piece = new Tour(imageList.Images[7], false,7,0);
+            damier[7][7].Piece = new Tour(imageList.Images[7], false,7,7);
             // déclaration des cavaliers
-            damier[0][1].piece = new Cheval(imageList.Images[2], true, 0, 1);
-            damier[0][6].piece = new Cheval(imageList.Images[2], true, 0, 6);
-            damier[7][1].piece = new Cheval(imageList.Images[8], false, 7, 1);
-            damier[7][6].piece = new Cheval(imageList.Images[8], false, 7, 6);
+            damier[0][1].Piece = new Cheval(imageList.Images[2], true, 0, 1);
+            damier[0][6].Piece = new Cheval(imageList.Images[2], true, 0, 6);
+            damier[7][1].Piece = new Cheval(imageList.Images[8], false, 7, 1);
+            damier[7][6].Piece = new Cheval(imageList.Images[8], false, 7, 6);
             // déclaration des fous
-            damier[0][2].piece = new Fou(imageList.Images[3], true, 0, 2);
-            damier[0][5].piece = new Fou(imageList.Images[3], true, 0, 5);
-            damier[7][2].piece = new Fou(imageList.Images[9], false, 7, 2);
-            damier[7][5].piece = new Fou(imageList.Images[9], false, 7, 5);
+            damier[0][2].Piece = new Fou(imageList.Images[3], true, 0, 2);
+            damier[0][5].Piece = new Fou(imageList.Images[3], true, 0, 5);
+            damier[7][2].Piece = new Fou(imageList.Images[9], false, 7, 2);
+            damier[7][5].Piece = new Fou(imageList.Images[9], false, 7, 5);
             // déclaration des rois
-            damier[0][4].piece = new Roi(imageList.Images[5], true,0,4);
-            damier[7][4].piece = new Roi(imageList.Images[11], false,7,4);
+            damier[0][4].Piece = new Roi(imageList.Images[5], true,0,4);
+            damier[7][4].Piece = new Roi(imageList.Images[11], false,7,4);
             // déclaration des reines
-            damier[0][3].piece = new Dame(imageList.Images[4], true, 0, 3);
-            damier[7][3].piece = new Dame(imageList.Images[10], false, 7, 3);
+            damier[0][3].Piece = new Dame(imageList.Images[4], true, 0, 3);
+            damier[7][3].Piece = new Dame(imageList.Images[10], false, 7, 3);
 
             //tests
             Actualiser();
@@ -204,11 +206,11 @@ namespace Chess
             {
                 for (int j = 0; j < (damier[i]).Length; j++)// on parcours toutes les cases du damiers
                 {
-                    if(damier[i][j].piece!=null && damier[i][j].piece.EstBlanc != EstNoir) // si il y a une piece de la couleur voulue
+                    if(damier[i][j].Piece!=null && damier[i][j].Piece.EstBlanc != EstNoir) // si il y a une Piece de la couleur voulue
                     {
-                        List<string> listDeplacement = damier[i][j].piece.Deplacement();//déplacement possibles de la piece sans réstriction
+                        List<string> listDeplacement = damier[i][j].Piece.Deplacement(damier[i][j].Ligne,damier[i][j].Colonne);//déplacement possibles de la Piece sans réstriction
 
-                        if (damier[i][j].piece is Pion) // si la piece est un pion 
+                        if (damier[i][j].Piece is Pion) // si la Piece est un pion 
                         {
                             int attack1 = Convert.ToInt32(listDeplacement[1]);
                             int attack2 = Convert.ToInt32(listDeplacement[2]);
@@ -218,7 +220,7 @@ namespace Chess
                                 int ligne = Convert.ToInt32(listDeplacement[1].Substring(0, 1));
                                 int colonne = Convert.ToInt32(listDeplacement[1].Substring(1, 1));
                                 Case caseAttack1 = damier[ligne][colonne];
-                                if (caseAttack1.piece != null && caseAttack1.piece.EstBlanc != damier[i][j].piece.EstBlanc)
+                                if (caseAttack1.Piece != null && caseAttack1.Piece.EstBlanc != damier[i][j].Piece.EstBlanc)
                                 {
                                     listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " ");
                                 }
@@ -228,7 +230,7 @@ namespace Chess
                                 int ligne = Convert.ToInt32(listDeplacement[2].Substring(0, 1));
                                 int colonne = Convert.ToInt32(listDeplacement[2].Substring(1, 1));
                                 Case caseAttack2 = damier[ligne][colonne];
-                                if (caseAttack2.piece != null && caseAttack2.piece.EstBlanc != damier[i][j].piece.EstBlanc)
+                                if (caseAttack2.Piece != null && caseAttack2.Piece.EstBlanc != damier[i][j].Piece.EstBlanc)
                                 {
                                     listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " ");
                                 }
@@ -243,10 +245,10 @@ namespace Chess
                                     int ligne = Convert.ToInt32(listDeplacement[k].Substring(0 + 3 * l, 1)); //ligne de la case possible pour ce déplacer
                                     int colonne = Convert.ToInt32(listDeplacement[k].Substring(1 + 3 * l, 1));//colonne de la case possible pour ce déplacer
                                     Case casePossible = damier[ligne][colonne];
-                                    if (casePossible.piece == null) { listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " "); } // ajout de la case attaquée si elle est vide
+                                    if (casePossible.Piece == null) { listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " "); } // ajout de la case attaquée si elle est vide
                                     else
                                     {
-                                        if (casePossible.piece.EstBlanc == EstNoir) { listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " "); } //si la couleur de la pièce est différente on l'ajoute a la list des cases attaquées.
+                                        if (casePossible.Piece.EstBlanc == EstNoir) { listMenace.Add(Convert.ToString(ligne) + Convert.ToString(colonne) + " "); } //si la couleur de la pièce est différente on l'ajoute a la list des cases attaquées.
                                         l = listDeplacement[k].Length;// arret après rencontre d'une pièce de la même couleur
                                     }
                                 }
@@ -302,13 +304,13 @@ namespace Chess
             {
                 for (int j = 0; j < (damier[i]).Length; j++)
                 {
-                    if(damier[i][j].piece != null)
+                    if(damier[i][j].Piece != null)
                     {
-                        if (damier[i][j].piece.EstBlanc != estBlanc)
+                        if (damier[i][j].Piece.EstBlanc != estBlanc)
                         {
-                            foreach (string deplacement in damier[i][j].piece.Deplacement())
+                            foreach (string deplacement in damier[i][j].Piece.Deplacement(damier[i][j].Ligne, damier[i][j].Colonne))
                             {
-                                if(damier[i][j].piece is Pion pion )
+                                if(damier[i][j].Piece is Pion pion )
                                 {
                                     // à compléter
                                 }else
@@ -318,14 +320,14 @@ namespace Chess
                                         int ligne = Convert.ToInt32(deplacement.Substring(0 + 3 * k, 1));
                                         int colonne = Convert.ToInt32(deplacement.Substring(1 + 3 * k, 1));
                                         Case casePossible = damier[ligne][colonne];
-                                        if (casePossible.piece == null || casePossible.piece.EstBlanc == estBlanc) // pas de capture de nos pièces
+                                        if (casePossible.Piece == null || casePossible.Piece.EstBlanc == estBlanc) // pas de capture de nos pièces
                                         {
                                             if (DeplacementSansEchec(!estBlanc, damier[i][j], damier[ligne][colonne]))// vérification que le mouvement ne met pas notre roi en échec
                                             {
                                                 return true;
                                             }
                                         }
-                                        if (casePossible.piece != null) { k = deplacement.Length; } // arret après rencontre d'une pièce
+                                        if (casePossible.Piece != null) { k = deplacement.Length; } // arret après rencontre d'une pièce
                                     }
                                 }
                             }
@@ -345,7 +347,7 @@ namespace Chess
             {
                 for (int j = 0; j < (damier[i]).Length; j++)
                 {
-                    if(damier[i][j].piece is Pion pion)
+                    if(damier[i][j].Piece is Pion pion)
                     {
                         if(pion.EstBlanc == estBlanc)
                         {
@@ -361,36 +363,32 @@ namespace Chess
         /// <param name="button">La case de la tour cliquée.</param>
         public void Rock(Case button)
         {
-            if(button.piece.EstBlanc == colorToPlay)
+            if(button.Piece.EstBlanc == colorToPlay)
             {
                 bool color;
-                if (button.piece.Column == 0) // rock a gauche
+                if (button.Colonne == 0) // rock a gauche
                 {
-                    color = button.piece.EstBlanc;
-                    damier[button.piece.Ligne][3].piece = button.piece; // déplacement de la tour
-                    damier[button.piece.Ligne][3].piece.Column = 3;
+                    color = button.Piece.EstBlanc;
+                    damier[button.Ligne][3].Piece = button.Piece; // déplacement de la tour
 
-                    damier[button.piece.Ligne][2].piece = selectedCase.piece; //déplacement du roi
-                    damier[button.piece.Ligne][2].piece.Column = 2;
+                    damier[button.Ligne][2].Piece = selectedCase.Piece; //déplacement du roi
 
-                    Roi roi = (Roi)damier[button.piece.Ligne][4].piece;
+                    Roi roi = (Roi)damier[button.Ligne][4].Piece;
                     roi.hasMoved = true;
-                    selectedCase.piece = null;
-                    button.piece = null;
+                    selectedCase.Piece = null;
+                    button.Piece = null;
                 }
                 else // rock a droite
                 {
-                    color = button.piece.EstBlanc;
-                    damier[button.piece.Ligne][5].piece = button.piece; // déplacement de la tour
-                    damier[button.piece.Ligne][5].piece.Column = 5;
+                    color = button.Piece.EstBlanc;
+                    damier[button.Ligne][5].Piece = button.Piece; // déplacement de la tour
 
-                    damier[button.piece.Ligne][6].piece = selectedCase.piece; //déplacement du roi
-                    damier[button.piece.Ligne][6].piece.Column = 6;
+                    damier[button.Ligne][6].Piece = selectedCase.Piece; //déplacement du roi
 
-                    Roi roi = (Roi)damier[button.piece.Ligne][4].piece;
+                    Roi roi = (Roi)damier[button.Ligne][4].Piece;
                     roi.hasMoved = true;
-                    selectedCase.piece = null;
-                    button.piece = null;
+                    selectedCase.Piece = null;
+                    button.Piece = null;
                 }
                 colorToPlay = !colorToPlay;
                 ResetDoubleAvance(!color);
@@ -405,28 +403,24 @@ namespace Chess
         /// <param name="button">La case attaquée par la prise en passant.</param>
         public void PrisePassant(Case button)
         {
-            if(button.piece.EstBlanc == colorToPlay)
+            if(button.Piece.EstBlanc == colorToPlay)
             {
-                if (selectedCase.piece.EstBlanc)
+                if (selectedCase.Piece.EstBlanc)
                 {
                     //déplacement
-                    Case newCase = damier[button.piece.Ligne + 1][button.piece.Column];
-                    newCase.piece = selectedCase.piece;
-                    newCase.piece.Ligne = button.piece.Ligne + 1;
-                    newCase.piece.Column = button.piece.Column;
+                    Case newCase = damier[button.Ligne + 1][button.Colonne];
+                    newCase.Piece = selectedCase.Piece;
                     //enlever les pions
-                    button.piece = null;
-                    selectedCase.piece = null;
+                    button.Piece = null;
+                    selectedCase.Piece = null;
                 }
                 else
                 {
-                    Case newCase = damier[button.piece.Ligne - 1][button.piece.Column];
-                    newCase.piece = selectedCase.piece;
-                    newCase.piece.Ligne = button.piece.Ligne - 1;
-                    newCase.piece.Column = button.piece.Column;
+                    Case newCase = damier[button.Ligne - 1][button.Colonne];
+                    newCase.Piece = selectedCase.Piece;
                     //enlever les pions
-                    button.piece = null;
-                    selectedCase.piece = null;
+                    button.Piece = null;
+                    selectedCase.Piece = null;
                 }
                 colorToPlay = !colorToPlay;
                 ResetDoubleAvance(true);
@@ -444,13 +438,13 @@ namespace Chess
         {
             lblEchec.Text = "";
             lblInfo.Text = "";
-            lblPiece.Text = button.piece.Name;
+            lblPiece.Text = button.Piece.Name;
             //actualisation de la dernière case cliquée
             selectedCase = button;
             button.BackColor = Color.LightBlue;
-            List<string> listcase = button.piece.Deplacement();// tout les déplacement possibles pour la pièce cliquée
+            List<string> listcase = button.Piece.Deplacement(button.Ligne, button.Colonne);// tout les déplacement possibles pour la pièce cliquée
 
-            if (button.piece is Pion) // régles spéciales si la pièce est un pion
+            if (button.Piece is Pion) // régles spéciales si la pièce est un pion
             {
                 SelectionPion(button,listcase);
                 return;
@@ -463,22 +457,22 @@ namespace Chess
                     int ligne = Convert.ToInt32(listcase[i].Substring(0 + 3 * j, 1));// extraction de la ligne actuel
                     int colonne = Convert.ToInt32(listcase[i].Substring(1 + 3 * j, 1));// extraction de la colonne actuel
                     Case casePossible = damier[ligne][colonne];
-                    if (casePossible.piece == null || casePossible.piece.EstBlanc != button.piece.EstBlanc) // pas de capture de nos pièces
+                    if (casePossible.Piece == null || casePossible.Piece.EstBlanc != button.Piece.EstBlanc) // pas de capture de nos pièces
                     {
-                        if (DeplacementSansEchec(button.piece.EstBlanc, button, casePossible))// vérification que le mouvement ne met pas notre roi en échec
+                        if (DeplacementSansEchec(button.Piece.EstBlanc, button, casePossible))// vérification que le mouvement ne met pas notre roi en échec
                         {
                             //changement de couleurs pour les cases vides
                             if ((ligne + colonne) % 2 == 0) { casePossible.BackColor = Color.Yellow; }
                             else { casePossible.BackColor = Color.Gold; }
                             // si la case contient une pièce ennemie on la met en rouge
-                            if (casePossible.piece != null && casePossible.piece.EstBlanc != button.piece.EstBlanc) { casePossible.BackColor = Color.Red; }
+                            if (casePossible.Piece != null && casePossible.Piece.EstBlanc != button.Piece.EstBlanc) { casePossible.BackColor = Color.Red; }
                         }
                     }
-                    if (casePossible.piece != null) { j = listcase[i].Length; } // arret après rencontre d'une pièce
+                    if (casePossible.Piece != null) { j = listcase[i].Length; } // arret après rencontre d'une pièce
                 }
             }
 
-            if (button.piece is Roi) // gestion du rock
+            if (button.Piece is Roi) // gestion du rock
             {
                 SelectionRoi(button);
             }
@@ -501,9 +495,9 @@ namespace Chess
                 int colonne = Convert.ToInt32(listcase[0].Substring(1, 1));
                 Case caseDeplacement = damier[ligne][colonne];
 
-                if (caseDeplacement.piece == null)
+                if (caseDeplacement.Piece == null)
                 {
-                    if (DeplacementSansEchec(button.piece.EstBlanc, button, caseDeplacement))// vérification que le mouvement ne met pas notre roi en échec
+                    if (DeplacementSansEchec(button.Piece.EstBlanc, button, caseDeplacement))// vérification que le mouvement ne met pas notre roi en échec
                     {
                         if ((ligne + colonne) % 2 == 0) { caseDeplacement.BackColor = Color.Yellow; }
                         else { caseDeplacement.BackColor = Color.Gold; }
@@ -514,9 +508,9 @@ namespace Chess
                         int ligneDouble = Convert.ToInt32(listcase[3].Substring(0, 1));
                         int colonneDouble = Convert.ToInt32(listcase[3].Substring(1, 1));
                         Case caseDouble = damier[ligneDouble][colonneDouble];
-                        if (DeplacementSansEchec(button.piece.EstBlanc, button, caseDeplacement))// vérification que le mouvement ne met pas notre roi en échec
+                        if (DeplacementSansEchec(button.Piece.EstBlanc, button, caseDeplacement))// vérification que le mouvement ne met pas notre roi en échec
                         {
-                            if (caseDouble.piece == null)
+                            if (caseDouble.Piece == null)
                             {
                                 if ((ligneDouble + colonneDouble) % 2 == 0) { caseDouble.BackColor = Color.Yellow; }
                                 else { caseDouble.BackColor = Color.Gold; }
@@ -530,9 +524,9 @@ namespace Chess
                 int ligne = Convert.ToInt32(listcase[1].Substring(0, 1));
                 int colonne = Convert.ToInt32(listcase[1].Substring(1, 1));
                 Case caseAttack1 = damier[ligne][colonne];
-                if (DeplacementSansEchec(button.piece.EstBlanc, button, caseAttack1))// vérification que le mouvement ne met pas notre roi en échec
+                if (DeplacementSansEchec(button.Piece.EstBlanc, button, caseAttack1))// vérification que le mouvement ne met pas notre roi en échec
                 {
-                    if (caseAttack1.piece != null && caseAttack1.piece.EstBlanc != button.piece.EstBlanc)
+                    if (caseAttack1.Piece != null && caseAttack1.Piece.EstBlanc != button.Piece.EstBlanc)
                     {
                         if ((ligne + colonne) % 2 == 0) { caseAttack1.BackColor = Color.Red; }
                         else { caseAttack1.BackColor = Color.Red; }
@@ -544,9 +538,9 @@ namespace Chess
                 int ligne = Convert.ToInt32(listcase[2].Substring(0, 1));
                 int colonne = Convert.ToInt32(listcase[2].Substring(1, 1));
                 Case caseAttack2 = damier[ligne][colonne];
-                if (DeplacementSansEchec(button.piece.EstBlanc, button, caseAttack2))// vérification que le mouvement ne met pas notre roi en échec
+                if (DeplacementSansEchec(button.Piece.EstBlanc, button, caseAttack2))// vérification que le mouvement ne met pas notre roi en échec
                 {
-                    if (caseAttack2.piece != null && caseAttack2.piece.EstBlanc != button.piece.EstBlanc)
+                    if (caseAttack2.Piece != null && caseAttack2.Piece.EstBlanc != button.Piece.EstBlanc)
                     {
                         if ((ligne + colonne) % 2 == 0) { caseAttack2.BackColor = Color.Red; }
                         else { caseAttack2.BackColor = Color.Red; }
@@ -554,10 +548,10 @@ namespace Chess
                 }
             }
 
-            if (button.piece.EstBlanc && button.piece.Ligne == 4 || !button.piece.EstBlanc && button.piece.Ligne == 3) // case possible pour la prise en passant
+            if (button.Piece.EstBlanc && button.Ligne == 4 || !button.Piece.EstBlanc && button.Ligne == 3) // case possible pour la prise en passant
             {
                 // cases menacées
-                int ligne = button.piece.Ligne;
+                int ligne = button.Ligne;
                 int colonneRight = Convert.ToInt32(listcase[4].Substring(1, 1));
                 int colonneLeft = Convert.ToInt32(listcase[5].Substring(1, 1));
 
@@ -565,7 +559,7 @@ namespace Chess
                 if (colonneRight < 8)
                 {
                     Case casePassantRight = damier[ligne][colonneRight];
-                    if (casePassantRight.piece is Pion pion)
+                    if (casePassantRight.Piece is Pion pion)
                     {
                         if (pion.doubleAvance == true)
                         {
@@ -577,7 +571,7 @@ namespace Chess
                 if (colonneLeft != 9)
                 {
                     Case casePassantLeft = damier[ligne][colonneLeft];
-                    if (casePassantLeft.piece is Pion pion )
+                    if (casePassantLeft.Piece is Pion pion )
                     {
                         if (pion.doubleAvance == true)
                         {
@@ -593,13 +587,13 @@ namespace Chess
         /// <param name="button">Le boutton sur lequel est le roi.</param>
         public void SelectionRoi(Case button)
         {
-            Roi roi = (Roi)button.piece;
+            Roi roi = (Roi)button.Piece;
 
             if (!roi.hasMoved) //vérification que le roi n'a pas encore bougé
             {
                 if (roi.EstBlanc) //pour le roi blanc
                 {
-                    if (damier[0][0].piece is Tour tour1 && damier[0][0].piece.EstBlanc == roi.EstBlanc && damier[0][1].piece == null && damier[0][2].piece == null && damier[0][3].piece == null) // tour à la bonne place - tour de la bonne couleur - pas de piece entre
+                    if (damier[0][0].Piece is Tour tour1 && damier[0][0].Piece.EstBlanc == roi.EstBlanc && damier[0][1].Piece == null && damier[0][2].Piece == null && damier[0][3].Piece == null) // tour à la bonne place - tour de la bonne couleur - pas de Piece entre
                     {
                         if (!IsMenacedFrom(false, 0, 1) && !IsMenacedFrom(false, 0, 2) && !IsMenacedFrom(false, 0, 3) && !IsMenacedFrom(false, 0, 4)) // vérification que les cases ne sont pas menacées
                         {
@@ -609,7 +603,7 @@ namespace Chess
                             }
                         }
                     }
-                    if (damier[0][7].piece is Tour tour2 && damier[0][7].piece.EstBlanc == roi.EstBlanc && damier[0][5].piece == null && damier[0][6].piece == null) // tour à la bonne place - tour de la bonne couleur - pas de piece entre
+                    if (damier[0][7].Piece is Tour tour2 && damier[0][7].Piece.EstBlanc == roi.EstBlanc && damier[0][5].Piece == null && damier[0][6].Piece == null) // tour à la bonne place - tour de la bonne couleur - pas de Piece entre
                     {
                         if (!IsMenacedFrom(false, 0, 4) && !IsMenacedFrom(false, 0, 5) && !IsMenacedFrom(false, 0, 6)) // vérification que les cases ne sont pas menacées
                         {
@@ -622,7 +616,7 @@ namespace Chess
                 }
                 else // pour le roi noir
                 {
-                    if (damier[7][0].piece is Tour tour1 && damier[7][0].piece.EstBlanc == roi.EstBlanc && damier[7][1].piece == null && damier[7][2].piece == null && damier[7][3].piece == null) // tour à la bonne place - tour de la bonne couleur - pas de piece entre
+                    if (damier[7][0].Piece is Tour tour1 && damier[7][0].Piece.EstBlanc == roi.EstBlanc && damier[7][1].Piece == null && damier[7][2].Piece == null && damier[7][3].Piece == null) // tour à la bonne place - tour de la bonne couleur - pas de Piece entre
                     {
                         if (!IsMenacedFrom(true, 7, 1) && !IsMenacedFrom(true, 7, 2) && !IsMenacedFrom(true, 7, 3) && !IsMenacedFrom(true, 7, 4)) // vérification que les cases ne sont pas menacées
                         {
@@ -632,7 +626,7 @@ namespace Chess
                             }
                         }
                     }
-                    if (damier[7][7].piece is Tour tour2 && damier[7][7].piece.EstBlanc == roi.EstBlanc && damier[7][5].piece == null && damier[7][6].piece == null) // tour à la bonne place - tour de la bonne couleur - pas de piece entre
+                    if (damier[7][7].Piece is Tour tour2 && damier[7][7].Piece.EstBlanc == roi.EstBlanc && damier[7][5].Piece == null && damier[7][6].Piece == null) // tour à la bonne place - tour de la bonne couleur - pas de Piece entre
                     {
                         if (!IsMenacedFrom(true, 7, 4) && !IsMenacedFrom(true, 7, 5) && !IsMenacedFrom(true, 7, 6)) // vérification que les cases ne sont pas menacées
                         {
@@ -651,37 +645,35 @@ namespace Chess
         /// <param name="button">La case sur laquel on a cliqué.</param>
         public void Deplacement(Case button)
         {
-            if(selectedCase.piece.EstBlanc == colorToPlay)
+            if(selectedCase.Piece.EstBlanc == colorToPlay)
             {
                 //cacher les bouton d'abandon après un coup
                 btnNoirAbandon.Visible = false;
                 btnBlancAbandon.Visible = false;
                 //affichage en text du déplacement de la pièce
-                if (button.piece != null) { lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1) + " dégustant: " + button.piece.Name; }
-                else { lblInfo.Text = "Déplacement de " + selectedCase.piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1); }
-                bool color = selectedCase.piece.EstBlanc;
-                button.piece = selectedCase.piece;
+                if (button.Piece != null) { lblInfo.Text = "Déplacement de " + selectedCase.Piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1) + " dégustant: " + button.Piece.Name; }
+                else { lblInfo.Text = "Déplacement de " + selectedCase.Piece.Name + " en " + button.Name.Substring(3, 1) + button.Name.Substring(4, 1); }
+                bool color = selectedCase.Piece.EstBlanc;
+                button.Piece = selectedCase.Piece;
                 // changement des valeurs stockées dans la pièce
-                button.piece.Ligne = Convert.ToInt32(button.Name.Substring(4, 1)) - 1;
-                button.piece.Column = Convert.ToInt32(LetterToNumber(button.Name.Substring(3, 1)));
 
-                if (selectedCase.piece is Pion)
+                if (selectedCase.Piece is Pion)
                 {
                     Promotion(button);
                 }
                 // supprimer la pièce de sa case prècèdente
-                selectedCase.piece = null;
+                selectedCase.Piece = null;
 
-                if (button.piece is Roi roi){roi.hasMoved = true;}
-                if (button.piece is Tour tour){tour.hasMoved = true;}
+                if (button.Piece is Roi roi){roi.hasMoved = true;}
+                if (button.Piece is Tour tour){tour.hasMoved = true;}
 
                 // affichage si le roi est en échec ou non
-                if (button.piece.EstBlanc)
+                if (button.Piece.EstBlanc)
                 {
                     lblEchec.Text = "Le roi noir n'est pas attaqué.";
                     foreach (Case casepossible in DeplacementPossible(Menace(false), true))
                     {
-                        if (casepossible.piece is Roi)
+                        if (casepossible.Piece is Roi)
                         {
                             lblEchec.Text = "Echec au Roi noir";
                             btnNoirAbandon.Visible = true;
@@ -693,7 +685,7 @@ namespace Chess
                     lblEchec.Text = "Le roi blanc n'est pas attaqué.";
                     foreach (Case casepossible in DeplacementPossible(Menace(true), false))
                     {
-                        if (casepossible.piece is Roi)
+                        if (casepossible.Piece is Roi)
                         {
                             lblEchec.Text = "Echec au Roi blanc";
                             btnBlancAbandon.Visible = true;
@@ -714,24 +706,24 @@ namespace Chess
         /// <param name="button">Boutton sur lequel le pion se transforme en reine.</param>
         private void Promotion(Case button)
         {
-            int departLigne = selectedCase.piece.Ligne;
-            if (button.piece.Ligne == 7 && button.piece.EstBlanc) // pour les pions blanc en dame sur la dernière ligne
+            int departLigne = selectedCase.Ligne;
+            if (button.Ligne == 7 && button.Piece.EstBlanc) // pour les pions blanc en dame sur la dernière ligne
             {
-                button.piece = new Dame(imageList.Images[4], true, 7, button.piece.Column);
+                button.Piece = new Dame(imageList.Images[4], true, 7, button.Colonne);
             }
-            if (button.piece.Ligne == 0 && button.piece.EstBlanc == false) // pour les pions noir en dame sur la dernière ligne
+            if (button.Ligne == 0 && button.Piece.EstBlanc == false) // pour les pions noir en dame sur la dernière ligne
             {
-                button.piece = new Dame(imageList.Images[4], false, 0, button.piece.Column);
+                button.Piece = new Dame(imageList.Images[4], false, 0, button.Colonne);
             }
 
-            if (button.piece.Ligne == 4 && departLigne == 6) // si le pion noir à fait une double poussée
+            if (button.Ligne == 4 && departLigne == 6) // si le pion noir à fait une double poussée
             {
-                Pion pion = (Pion)button.piece;
+                Pion pion = (Pion)button.Piece;
                 pion.doubleAvance = true;
             }
-            if (button.piece.Ligne == 3 && departLigne == 1) // si le pion blanc à fait une double poussée
+            if (button.Ligne == 3 && departLigne == 1) // si le pion blanc à fait une double poussée
             {
-                Pion pion = (Pion)button.piece;
+                Pion pion = (Pion)button.Piece;
                 pion.doubleAvance = true;
             }
         }
@@ -776,7 +768,7 @@ namespace Chess
             }
 
             ResetColors();
-            if (button.piece != null)
+            if (button.Piece != null)
             {
                 Selection(button);
                 return;
@@ -794,22 +786,22 @@ namespace Chess
         {
             //stockage des valeurs initiales
             bool answer = true;
-            Piece PieceDépart = depart.piece;
+            Piece PieceDépart = depart.Piece;
             Piece PieceArrive;
-            if (arrivee.piece != null){PieceArrive = arrivee.piece;}
+            if (arrivee.Piece != null){PieceArrive = arrivee.Piece;}
             else{PieceArrive = null;}
             //modification de la position
-            arrivee.piece = depart.piece;
-            depart.piece = null;
+            arrivee.Piece = depart.Piece;
+            depart.Piece = null;
 
             foreach (Case casemenacee in DeplacementPossible(Menace(estblanc),!estblanc))//vérification des toutes les menaces dans la nouvelle position
             {
-                if (casemenacee.piece is Roi) // si le roi est menacé le coup précédent était ilégal
+                if (casemenacee.Piece is Roi) // si le roi est menacé le coup précédent était ilégal
                     answer = false;
             }
             //remise à zero de la position
-            depart.piece = PieceDépart;
-            arrivee.piece = PieceArrive;
+            depart.Piece = PieceDépart;
+            arrivee.Piece = PieceArrive;
 
             return answer;
         }
@@ -829,11 +821,11 @@ namespace Chess
                     int ligne = Convert.ToInt32(listcase[i].Substring(0 + 3 * j, 1));// extraction de la ligne actuel
                     int colonne = Convert.ToInt32(listcase[i].Substring(1 + 3 * j, 1));// extraction de la colonne actuel
                     Case casePossible = damier[ligne][colonne];
-                    if (casePossible.piece != null && casePossible.piece.EstBlanc != EstBlanc) // pas de capture de nos pièces
+                    if (casePossible.Piece != null && casePossible.Piece.EstBlanc != EstBlanc) // pas de capture de nos pièces
                     {
                         listPossible.Add(casePossible);
                     }
-                    if (casePossible.piece != null) { j = listcase[i].Length; } // arret après rencontre d'une pièce
+                    if (casePossible.Piece != null) { j = listcase[i].Length; } // arret après rencontre d'une pièce
                 }
             }
             return listPossible;
@@ -884,11 +876,11 @@ namespace Chess
             {
                 for (int j = 0; j < (damier[i]).Length; j++)// on parcours le plateau
                 {
-                    if (damier[i][j].piece != null)
+                    if (damier[i][j].Piece != null)
                     {
-                        if (damier[i][j].piece.EstBlanc)
+                        if (damier[i][j].Piece.EstBlanc)
                         {
-                            switch (damier[i][j].piece)// addition de la valeur des pièces blaches
+                            switch (damier[i][j].Piece)// addition de la valeur des pièces blaches
                             {
                                 case Dame dame:
                                     pointBlanc += 9;
@@ -909,7 +901,7 @@ namespace Chess
                         }
                         else
                         {
-                            switch (damier[i][j].piece)// addition de la valeur des pièces noires
+                            switch (damier[i][j].Piece)// addition de la valeur des pièces noires
                             {
                                 case Dame dame:
                                     pointNoir += 9;

@@ -9,11 +9,13 @@ namespace Chess
 {
     public class Case:Button
     {
-        public Piece piece { get; set; }
+        public Piece Piece { get; set; }
+        public int Ligne { get; set; }
+        public int Colonne { get; set; }
 
         public void Draw() // dessine le pièce si la case en possède une, efface la pièce si elle n'en possède plus
         {
-            if (piece != null){Image = piece.Pictogramme;
+            if (Piece != null){Image = Piece.Pictogramme;
             }else{Image = null;}
         }
     }
