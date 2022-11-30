@@ -49,7 +49,7 @@ namespace Chess
             imageList.Images.Add(Resources._9_FouNoir);
             imageList.Images.Add(Resources._10_ReineNoir);
             imageList.Images.Add(Resources._11_RoiNoir);
-            string[] letters = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
+            string[] letters = new string[] { "A", "B", "C", "D", "E", "F", "G", "H" };
 
             // création de la barre d'évaluation
             buttonEvalWhite.Location= new Point(10, 50);
@@ -68,21 +68,21 @@ namespace Chess
 
             for (int j = 0; j < 8; j++) // création des cases
             {
-                Case[] cases1 = new Case[8];
+                Case[] ligneCase = new Case[8];
                 for (int i = 0; i < 8; i++)
                 {
-                    Case cases = new Case(j,i);
+                    Case cases = new Case(j, i);
                     cases.Click += new EventHandler(this.BtnCases_Click);
                     cases.Size = new Size(50, 50);
                     cases.Location = new Point(200 + i * 49, 400 - j * 49);
-                    cases.Name = "btn" + letters[i].ToUpper() + (j+1);
+                    cases.Name = "btn" + letters[i] + (j+1);
                     cases.FlatStyle = FlatStyle.Flat;
                     if ((i+j)%2 == 0){cases.BackColor = Color.Gray;
                     }else { cases.BackColor = Color.White; }
                     this.Controls.Add(cases);
-                    cases1[i] = cases;
+                    ligneCase[i] = cases;
                 }
-                damier[j] = cases1;
+                damier[j] = ligneCase;
             }
 
             for (int col = 0; col < 8; col++) // affichage des lettres des colonnes
@@ -114,6 +114,7 @@ namespace Chess
         /// <param name="e"></param>
         private void BtnCommencer_Click(object sender, EventArgs e)
         {
+            colorToPlay = true;
             for (int i = 0; i < damier.Length; i++)
             {
                 for (int j = 0; j < (damier[i]).Length; j++)
@@ -157,26 +158,7 @@ namespace Chess
             //tests
             Actualiser();
         }
-        /// <summary>
-        /// Changes une lettre donnée en nombre pour le tableau de case.
-        /// </summary>
-        /// <param name="letter">Lettre que nous voulons transformer en chiffre.</param>
-        /// <returns></returns>
-        private int LetterToNumber(string letter)
-        {
-            switch(letter)
-            {
-                case "A": return 0;
-                case "B": return 1;
-                case "C": return 2;
-                case "D": return 3;
-                case "E": return 4;
-                case "F": return 5;
-                case "G": return 6;
-                case "H": return 7;
-                default: return 0;
-            }
-        }
+
         /// <summary>
         /// Pour afficher toutes les pièces sur toutes les cases.
         /// </summary>
