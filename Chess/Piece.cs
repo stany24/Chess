@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Chess
 {
@@ -20,12 +16,12 @@ namespace Chess
             EstBlanc = estblanc;
         }
 
-        public virtual List<string> Deplacement(int ligne,int colonne) // cette méthode est crée pour être override dans les classes dépandente de piece
+        public virtual List<string> Deplacement(int ligne, int colonne) // cette méthode est crée pour être override dans les classes dépandente de piece
         {
             return null;
         }
 
-        public string ToString(int ligne,int colonne) // renvoye le nom de la piece avec les déplacement possibles sans les limitation des autres pieces
+        public string ToString(int ligne, int colonne) // renvoye le nom de la piece avec les déplacement possibles sans les limitation des autres pieces
         {
             string Tostring = Name + ". Déplaçable en ";
             foreach (string item in Deplacement(ligne, colonne))
@@ -53,8 +49,8 @@ namespace Chess
         public List<string> Croix(int ligne, int colonne)
         {
             List<string> listDeplacement = new List<string>();
-            string deplacementHaut = "",deplacementBas="", deplacementDroite = "", deplacementGauche = "";
-            for (int i = 1; colonne - i > -1; i++){deplacementGauche += $"{ligne}{colonne - i} ";}
+            string deplacementHaut = "", deplacementBas = "", deplacementDroite = "", deplacementGauche = "";
+            for (int i = 1; colonne - i > -1; i++) { deplacementGauche += $"{ligne}{colonne - i} "; }
             listDeplacement.Add(deplacementGauche);
             for (int i = 1; colonne + i < 8; i++) { deplacementDroite += $"{ligne}{colonne + i} "; }
             listDeplacement.Add(deplacementDroite);
@@ -84,7 +80,7 @@ namespace Chess
             List<string> listDeplacement = new List<string>();
             if (ligne + 1 < 8)
             {
-                if (colonne + 1 < 8) { listDeplacement.Add($"{ligne + 1}{colonne +1} "); }
+                if (colonne + 1 < 8) { listDeplacement.Add($"{ligne + 1}{colonne + 1} "); }
                 if (colonne - 1 > -1) { listDeplacement.Add($"{ligne + 1}{colonne - 1} "); }
                 listDeplacement.Add($"{ligne + 1}{colonne} ");
             }
@@ -135,26 +131,26 @@ namespace Chess
             List<string> listDeplacement = new List<string>();
             if (ligne + 2 <= 7)
             {
-                if (colonne + 1 <= 7){listDeplacement.Add($"{ligne + 2}{colonne + 1} ");}
-                if (colonne - 1 >= 0){listDeplacement.Add($"{ligne + 2}{colonne - 1} ");}
+                if (colonne + 1 <= 7) { listDeplacement.Add($"{ligne + 2}{colonne + 1} "); }
+                if (colonne - 1 >= 0) { listDeplacement.Add($"{ligne + 2}{colonne - 1} "); }
             }
 
             if (ligne - 2 >= 0)
             {
-                if (colonne + 1 <= 7){listDeplacement.Add($"{ligne - 2}{colonne + 1} ");}
-                if (colonne - 1 >= 0){listDeplacement.Add($"{ligne - 2}{colonne - 1} ");}
+                if (colonne + 1 <= 7) { listDeplacement.Add($"{ligne - 2}{colonne + 1} "); }
+                if (colonne - 1 >= 0) { listDeplacement.Add($"{ligne - 2}{colonne - 1} "); }
             }
 
             if (colonne + 2 <= 7)
             {
-                if (ligne + 1 <= 7){listDeplacement.Add($"{ligne + 1}{colonne + 2} ");}
-                if (ligne - 1 >= 0){listDeplacement.Add($"{ligne - 1}{colonne + 2} ");}
+                if (ligne + 1 <= 7) { listDeplacement.Add($"{ligne + 1}{colonne + 2} "); }
+                if (ligne - 1 >= 0) { listDeplacement.Add($"{ligne - 1}{colonne + 2} "); }
             }
 
             if (colonne - 2 >= 0)
             {
-                if (ligne + 1 <= 7){listDeplacement.Add($"{ligne + 1}{colonne - 2} ");}
-                if (ligne - 1 >= 0){listDeplacement.Add($"{ligne - 1}{colonne - 2} ");}
+                if (ligne + 1 <= 7) { listDeplacement.Add($"{ligne + 1}{colonne - 2} "); }
+                if (ligne - 1 >= 0) { listDeplacement.Add($"{ligne - 1}{colonne - 2} "); }
             }
 
             return listDeplacement;
@@ -166,7 +162,7 @@ namespace Chess
         {
             Name = "Fou";
             if (estblanc) Name += " blanc";
-            else Name +=  "noir";
+            else Name += "noir";
             EstBlanc = estblanc;
             Pictogramme = image;
         }
@@ -190,7 +186,7 @@ namespace Chess
 
         public override List<string> Deplacement(int ligne, int colonne) // calcule les déplacement possible pour une tour
         {
-            List<string> listDeplacement = Diagonale(ligne,colonne);
+            List<string> listDeplacement = Diagonale(ligne, colonne);
             foreach (string item in Croix(ligne, colonne))
             {
                 listDeplacement.Add(item);
@@ -199,7 +195,7 @@ namespace Chess
         }
     }
 
-    public class Pion:Piece
+    public class Pion : Piece
     {
         public bool doubleAvance = false;
 
@@ -220,7 +216,7 @@ namespace Chess
             {
                 listDeplacement.Add($"{ligne + 1}{colonne} "); //avance
 
-                if (colonne + 1 < 8){listDeplacement.Add($"{ligne + 1}{colonne + 1} ");} //attaque a droite
+                if (colonne + 1 < 8) { listDeplacement.Add($"{ligne + 1}{colonne + 1} "); } //attaque a droite
                 else { listDeplacement.Add("99 "); }
 
                 if (colonne - 1 > -1) { listDeplacement.Add($"{ligne + 1}{colonne - 1} "); } //attaque a gauche
@@ -234,7 +230,7 @@ namespace Chess
             {
                 listDeplacement.Add($"{ligne - 1}{colonne} "); //avance
 
-                if (colonne + 1 < 8){listDeplacement.Add($"{ligne - 1}{colonne + 1} "); } //attaque a droite
+                if (colonne + 1 < 8) { listDeplacement.Add($"{ligne - 1}{colonne + 1} "); } //attaque a droite
                 else { listDeplacement.Add("99 "); }
 
                 if (colonne - 1 > -1) { listDeplacement.Add($"{ligne - 1}{colonne - 1} "); } //attaque a gauche
@@ -245,14 +241,15 @@ namespace Chess
             }
 
             listDeplacement.Add($"{ligne}{colonne + 1} ");
-            if(colonne-1 > -1)
+            if (colonne - 1 > -1)
             {
                 listDeplacement.Add($"{ligne}{colonne - 1} "); //attaque a gauche
-            }else
+            }
+            else
             {
                 listDeplacement.Add(Convert.ToString(ligne) + "9 "); //attaque a gauche
             }
-            
+
             return listDeplacement;
         }
     }
