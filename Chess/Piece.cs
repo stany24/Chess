@@ -6,9 +6,9 @@ namespace Chess
 {
     public class Piece
     {
-        public bool EstBlanc;
-        public string Name;
-        public Image Pictogramme;
+        internal bool EstBlanc { get; set; }
+        internal string Name { get; set; }
+        internal Image Pictogramme { get; set; }
 
         public Piece(Image image, bool estblanc)
         {
@@ -18,7 +18,7 @@ namespace Chess
 
         public virtual List<string> Deplacement(int ligne, int colonne) // cette méthode est crée pour être override dans les classes dépandente de piece
         {
-            return null;
+            return  new List<string>();
         }
 
         public string ToString(int ligne, int colonne) // renvoye le nom de la piece avec les déplacement possibles sans les limitation des autres pieces
@@ -64,7 +64,7 @@ namespace Chess
 
     public class Roi : Piece // classe dépandente de pièce pour le roi
     {
-        public bool hasMoved;
+        public bool HasMoved { get; set; }
         public Roi(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
         {
             Name = "Roi ";
@@ -72,7 +72,7 @@ namespace Chess
             else Name += "noir";
             EstBlanc = estblanc;
             Pictogramme = image;
-            hasMoved = false;
+            HasMoved = false;
         }
 
         public override List<string> Deplacement(int ligne, int colonne) // calcule les déplacements possible pour la piece sans collision
@@ -98,7 +98,7 @@ namespace Chess
 
     public class Tour : Piece
     {
-        public bool hasMoved;
+        internal bool HasMoved { get; set; }
         public Tour(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
         {
             Name = "Tour ";
@@ -106,7 +106,7 @@ namespace Chess
             else Name += "noir";
             EstBlanc = estblanc;
             Pictogramme = image;
-            hasMoved = false;
+            HasMoved = false;
         }
 
         public override List<string> Deplacement(int ligne, int colonne) // calcule les déplacement possible pour une tour
@@ -197,7 +197,7 @@ namespace Chess
 
     public class Pion : Piece
     {
-        public bool doubleAvance = false;
+        public bool DoubleAvance { get; set; }
 
         public Pion(Image image, bool estblanc) : base(image, estblanc) // constructeur de base
         {
