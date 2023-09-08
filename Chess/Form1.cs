@@ -282,36 +282,33 @@ namespace Chess
             {
                 for (int j = 0; j < (damier[i]).Length; j++)
                 {
-                    if (damier[i][j].Piece != null)
+                    if (damier[i][j].Piece == null) { continue; }
+                    if (damier[i][j].Piece.EstBlanc == estBlanc) { continue; }
+                    foreach (string deplacement in damier[i][j].Piece.Deplacement(damier[i][j].Ligne, damier[i][j].Colonne))
                     {
-                        if (damier[i][j].Piece.EstBlanc != estBlanc)
+                        if (damier[i][j].Piece is Pion pion)
                         {
-                            foreach (string deplacement in damier[i][j].Piece.Deplacement(damier[i][j].Ligne, damier[i][j].Colonne))
+                            // à compléter
+                        }
+                        else
+                        {
+                            for (int k = 0; k < deplacement.Length / 3; k++)
                             {
-                                if (damier[i][j].Piece is Pion pion)
+                                int ligne = Convert.ToInt32(deplacement.Substring(0 + 3 * k, 1));
+                                int colonne = Convert.ToInt32(deplacement.Substring(1 + 3 * k, 1));
+                                Case casePossible = damier[ligne][colonne];
+                                if (casePossible.Piece == null || casePossible.Piece.EstBlanc == estBlanc) // pas de capture de nos pièces
                                 {
-                                    // à compléter
-                                }
-                                else
-                                {
-                                    for (int k = 0; k < deplacement.Length / 3; k++)
+                                    if (DeplacementSansEchec(!estBlanc, damier[i][j], damier[ligne][colonne]))// vérification que le mouvement ne met pas notre roi en échec
                                     {
-                                        int ligne = Convert.ToInt32(deplacement.Substring(0 + 3 * k, 1));
-                                        int colonne = Convert.ToInt32(deplacement.Substring(1 + 3 * k, 1));
-                                        Case casePossible = damier[ligne][colonne];
-                                        if (casePossible.Piece == null || casePossible.Piece.EstBlanc == estBlanc) // pas de capture de nos pièces
-                                        {
-                                            if (DeplacementSansEchec(!estBlanc, damier[i][j], damier[ligne][colonne]))// vérification que le mouvement ne met pas notre roi en échec
-                                            {
-                                                return true;
-                                            }
-                                        }
-                                        if (casePossible.Piece != null) { k = deplacement.Length; } // arret après rencontre d'une pièce
+                                        return true;
                                     }
                                 }
+                                if (casePossible.Piece != null) { k = deplacement.Length; } // arret après rencontre d'une pièce
                             }
                         }
                     }
+
                 }
             }
             return false;
@@ -326,13 +323,9 @@ namespace Chess
             {
                 for (int j = 0; j < (damier[i]).Length; j++)
                 {
-                    if (damier[i][j].Piece is Pion pion)
-                    {
-                        if (pion.EstBlanc == estBlanc)
-                        {
-                            pion.DoubleAvance = false;
-                        }
-                    }
+                    if (!(damier[i][j].Piece is Pion pion)) { continue; }
+                    if (pion.EstBlanc != estBlanc) { continue; }
+                    pion.DoubleAvance = false;
                 }
             }
         }
